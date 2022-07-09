@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "yawnclient",
+  "version": "${version}",
+
+  "name": "YawnClient",
+  "description": "Yawnclient is based",
+  "authors": [
+    "Vp"
+  ],
+  "contact": {
+    "homepage": "https://vp-dev.eu",
+    "sources": "https://github.com/HerraVp/yawnclient"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/yawnclient/yawn.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.vp.yawnclient.YawnClient"
+    ]
+  },
+  "mixins": [
+    "yawnclient.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
