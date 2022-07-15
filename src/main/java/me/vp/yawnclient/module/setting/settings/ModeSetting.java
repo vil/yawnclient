@@ -15,6 +15,7 @@ public class ModeSetting extends Setting {
 	public ModeSetting(String name, Module parent, String defaultMode, String... modes) {
 		this.name = name;
 		this.parent = parent;
+        this.type = "ModeSetting";
 		this.modes = Arrays.asList(modes);
 		this.index = this.modes.indexOf(defaultMode);
 	}

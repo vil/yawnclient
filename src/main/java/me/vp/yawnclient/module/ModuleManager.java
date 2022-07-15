@@ -5,10 +5,12 @@ import java.util.List;
 
 import me.vp.yawnclient.event.Event;
 import me.vp.yawnclient.event.events.KeyPressEvent;
+import me.vp.yawnclient.module.modules.Clickgui;
 import me.vp.yawnclient.module.modules.Test;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
+import org.quantumclient.energy.Subscribe;
 
 public class ModuleManager {
 	public ArrayList<Module> modules;
@@ -16,17 +18,8 @@ public class ModuleManager {
 	public ModuleManager() {
 		modules = new ArrayList<>();
 
+        modules.add(new Clickgui());
 		modules.add(new Test());
-	}
-
-	@SuppressWarnings("rawtypes")
-	public void onEvent(Event e) {
-		for(Module m : modules) {
-			if(!m.isEnabled())
-				continue;
-
-			m.onEvent(e);;
-		}
 	}
 
 	public boolean isModuleEnabled(String name) {
@@ -66,12 +59,12 @@ public class ModuleManager {
 	}
 
 	// for key binds (called in MixinKeyboard).
-	public void keyPress(int key, int scancode) {
-		KeyPressEvent e = new KeyPressEvent(key, scancode);
+    @Subscribe
+	public void onKeyPress(KeyPressEvent event) {
 		if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_KEY_F3))
 			return;
 
-		modules.stream().filter(m -> m.getKey() == e.getKey()).forEach(Module::toggle);
+		modules.stream().filter(m -> m.getKey() == event.getKey()).forEach(Module::toggle);
 	}
 
 }

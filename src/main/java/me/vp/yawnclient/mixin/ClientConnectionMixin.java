@@ -17,7 +17,7 @@ import java.util.concurrent.Future;
 public class ClientConnectionMixin {
 
     @Inject(method = "channelRead0*", at = @At("HEAD"), cancellable = true)
-    public void receive(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
+    public void channelRead0(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
         PacketEvent.Receive event = new PacketEvent.Receive(packet);
         YawnClient.EVENT_BUS.post(event);
         if (event.isCancelled()) ci.cancel();

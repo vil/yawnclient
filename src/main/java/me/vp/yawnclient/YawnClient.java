@@ -1,5 +1,6 @@
 package me.vp.yawnclient;
 
+import me.vp.yawnclient.clickgui.Clickgui;
 import me.vp.yawnclient.saveload.Load;
 import me.vp.yawnclient.saveload.Save;
 import me.vp.yawnclient.command.Command;
@@ -13,10 +14,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quantumclient.energy.EventBus;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public final class YawnClient implements ModInitializer {
 	public static YawnClient INSTANCE;
 	public static String name = "YawnClient";
-	public static String version = "b0.1";
+	public static final String version = "0.1b " + getBuildDay();
 	public static final MinecraftClient mc = MinecraftClient.getInstance();
 
 	public YawnClient() {
@@ -27,6 +31,7 @@ public final class YawnClient implements ModInitializer {
 	public ModuleManager moduleManager;
 	public SettingManager settingManager;
 	public CommandManager commandManager;
+    public Clickgui clickgui;
 	public Save save;
 	public Load load;
 
@@ -64,11 +69,20 @@ public final class YawnClient implements ModInitializer {
 		settingManager = new SettingManager();
 		printLog("setting system initialized.");
 
+        clickgui = new Clickgui();
+        printLog("clickgui intialized.");
+
 		save = new Save();
 		load = new Load();
 		printLog("saves and loads initialized.");
 		long finishTime = System.currentTimeMillis() - startTime;
 		printLog("Yawnclient \uD83E\uDD71 initialized in " + finishTime + "ms.");
 	}
+
+    private static String getBuildDay() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
 
 }

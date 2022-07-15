@@ -6,21 +6,21 @@ import java.util.Comparator;
 import java.util.List;
 
 import me.vp.yawnclient.YawnClient;
-import me.vp.yawnclient.event.Event;
 import me.vp.yawnclient.module.setting.Setting;
 import me.vp.yawnclient.module.setting.settings.KeybindSetting;
 import net.minecraft.client.MinecraftClient;
 
 public abstract class Module {
-
-	public String name, ID, description;
+    public static MinecraftClient mc = MinecraftClient.getInstance();
+	public String name, description;
+    public Module parent;
 	public KeybindSetting keyCode = new KeybindSetting(0);
 	public Category category;
 	public boolean enabled;
 	public int index;
-	public List<Setting> settings = new ArrayList<Setting>();
+	public List<Setting> settings = new ArrayList<>();
 
-	public Module(String name, String description, int key, Category category) {
+    public Module(String name, String description, int key, Category category) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -128,11 +128,6 @@ public abstract class Module {
 	}
 
 	public void onDisable() {
-
-	}
-
-	@SuppressWarnings("rawtypes")
-	public void onEvent(Event e) {
 
 	}
 

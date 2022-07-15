@@ -14,6 +14,7 @@ public class ColorSetting extends Setting {
 		this.name = name;
 		this.parent = parent;
 		this.value = value;
+        this.type = "ColorSetting";
 	}
 
 	public JColor getValue() {
