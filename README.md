@@ -1,6 +1,6 @@
 # yawnclient
 
-<img style='width:150px; height:150px;' src="https://cdn.discordapp.com/attachments/898172744754167850/995454755377778749/yawn.png"/>
+<img style='width:150px; height:150px;' src="https://github.com/HerraVp/yawnclient/blob/main/src/main/resources/assets/yawnclient/yawn.png?raw=true"/>
 by Vp :)
 
 
