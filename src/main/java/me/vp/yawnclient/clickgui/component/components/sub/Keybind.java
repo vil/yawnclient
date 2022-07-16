@@ -36,7 +36,8 @@ public class Keybind extends Component {
         ? new Color(20, 20, 20, 191).getRGB() : new Color(0, 0, 0, 191).getRGB());
 
 		DrawableHelper.fill(matrixStack, parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, new Color(0, 0, 0, 191).getRGB());
-        DrawableHelper.drawStringWithShadow(matrixStack, textRenderer, binding ? "Press a key..." : ("Key: " + GLFW.glfwGetKeyScancode(this.parent.mod.getKey())), (parent.parent.getX() + 6),
+        DrawableHelper.drawStringWithShadow(matrixStack, textRenderer, binding ? "Press a key..." :
+        ("Key: " + GLFW.glfwGetKeyName(this.parent.mod.keyCode.getKeyCode(), this.parent.mod.getKey())), (parent.parent.getX() + 6),
                                             (parent.parent.getY() + offset) + 3, new Color(255, 255, 255, 255).getRGB());
 	}
 

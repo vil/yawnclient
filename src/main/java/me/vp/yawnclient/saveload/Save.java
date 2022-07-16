@@ -44,7 +44,8 @@ public class Save {
             ArrayList<String> toSave = new ArrayList<>();
 
             for(Module module : YawnClient.INSTANCE.moduleManager.getModules()) {
-                if (module.isEnabled() && !module.getName().equals("clickgui") && !module.getName().equals("hudeditor") && !module.getName().equals("commandline") && !module.getName().equals("options")) {
+                if (module.isEnabled() && !module.getName().equalsIgnoreCase("Clickgui") && !module.getName().equalsIgnoreCase("hudeditor") &&
+                    !module.getName().equalsIgnoreCase("commandline") && !module.getName().equalsIgnoreCase("options")) {
                     toSave.add(module.getName());
                 }
             }

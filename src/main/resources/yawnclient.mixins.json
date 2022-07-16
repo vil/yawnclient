@@ -7,7 +7,10 @@
   ],
   "client": [
     "ClientConnectionMixin",
+    "ClientPlayerEntityMixin",
+    "IngameHudMixin",
     "KeyboardMixin",
+    "MinecraftClientMixin",
     "TelemetrySenderMixin",
     "TitleScreenMixin"
   ],

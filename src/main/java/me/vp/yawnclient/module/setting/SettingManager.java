@@ -1,10 +1,9 @@
 package me.vp.yawnclient.module.setting;
 
-import java.util.ArrayList;
-
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.module.Module;
 
+import java.util.ArrayList;
 public class SettingManager {
 
 	private ArrayList<Setting> settings;
@@ -22,7 +21,7 @@ public class SettingManager {
 	}
 
 	public ArrayList<Setting> getSettingsByMod(Module mod) {
-		ArrayList<Setting> out = new ArrayList<Setting>();
+		ArrayList<Setting> out = new ArrayList<>();
 		for(Setting s : getSettings()) {
 			if(s.parent.equals(mod)) {
 				out.add(s);
@@ -42,7 +41,7 @@ public class SettingManager {
 				}
 			}
 		}
-		YawnClient.LOGGER.error("Error Setting NOT found: '" + name +"'!");
+		YawnClient.LOGGER.error("Setting NOT found: '" + name +"'!");
 		return null;
 	}
 }

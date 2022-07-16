@@ -30,7 +30,7 @@ public abstract class Module {
 		enabled = false;
 	}
 
-	//TODO make categories customizable.... and maybe switch the whole system to annotations to make life easier.
+
 	public enum Category {
 		PLAYER("player"),
 		RENDER("render"),
@@ -123,12 +123,10 @@ public abstract class Module {
 		setEnabled(false);
 	}
 
-	public void onEnable() {
+    public void onTick() {}
 
-	}
+	public void onEnable() {}
 
-	public void onDisable() {
-
-	}
+	public void onDisable() {}
 
 }

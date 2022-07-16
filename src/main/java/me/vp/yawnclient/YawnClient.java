@@ -1,13 +1,13 @@
 package me.vp.yawnclient;
 
-import me.vp.yawnclient.clickgui.Clickgui;
 import me.vp.yawnclient.saveload.Load;
 import me.vp.yawnclient.saveload.Save;
 import me.vp.yawnclient.command.Command;
 import me.vp.yawnclient.command.CommandManager;
-import me.vp.yawnclient.module.Module;
 import me.vp.yawnclient.module.ModuleManager;
+import me.vp.yawnclient.module.Module;
 import me.vp.yawnclient.module.setting.SettingManager;
+
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
 import org.apache.logging.log4j.LogManager;
@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 public final class YawnClient implements ModInitializer {
 	public static YawnClient INSTANCE;
 	public static String name = "YawnClient";
-	public static final String version = "0.1b " + getBuildDay();
+	public static final String version = "0.1b";
 	public static final MinecraftClient mc = MinecraftClient.getInstance();
 
 	public YawnClient() {
@@ -31,7 +31,6 @@ public final class YawnClient implements ModInitializer {
 	public ModuleManager moduleManager;
 	public SettingManager settingManager;
 	public CommandManager commandManager;
-    public Clickgui clickgui;
 	public Save save;
 	public Load load;
 
@@ -58,26 +57,30 @@ public final class YawnClient implements ModInitializer {
 		long startTime = System.currentTimeMillis();
 		printLog("Yawnclient \uD83E\uDD71 " + version + " by Vp");
 
-		printLog("variables initialized.");
-
-		commandManager = new CommandManager();
-		printLog("command system initialized.");
-
-		moduleManager = new ModuleManager();
-		printLog("module system initialized.");
-
 		settingManager = new SettingManager();
 		printLog("setting system initialized.");
-
-        clickgui = new Clickgui();
-        printLog("clickgui intialized.");
 
 		save = new Save();
 		load = new Load();
 		printLog("saves and loads initialized.");
 		long finishTime = System.currentTimeMillis() - startTime;
-		printLog("Yawnclient \uD83E\uDD71 initialized in " + finishTime + "ms.");
+		printLog("Yawnclient \uD83E\uDD71 phase 1 initialized in " + finishTime + "ms.");
 	}
+
+    public void yawnInit() {
+        long startTime = System.currentTimeMillis();
+        load.load();
+        printLog("Settings loaded.");
+
+        commandManager = new CommandManager();
+		printLog("command system initialized.");
+
+		moduleManager = new ModuleManager();
+		printLog("module system initialized.");
+
+        long finishTime = System.currentTimeMillis() - startTime;
+		printLog("Yawnclient \uD83E\uDD71 phase 2 initialized in " + finishTime + "ms.");
+    }
 
     private static String getBuildDay() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy.MM.dd");

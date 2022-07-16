@@ -38,7 +38,7 @@ public class Frame {
 
 		for(Module mod : YawnClient.INSTANCE.moduleManager.getModules()) {
 			if (!mod.getCategory().equals(cat)) continue;
-			Button modButton = new Button(mod, this, tY);
+			Button modButton = new Button(mod, this, tY, open);
 			this.components.add(modButton);
 			tY += 12;
 		}

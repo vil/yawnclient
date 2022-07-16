@@ -1,23 +1,22 @@
 package me.vp.yawnclient.module.setting.settings;
 
-import java.util.Arrays;
-import java.util.List;
-
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.module.Module;
 import me.vp.yawnclient.module.setting.Setting;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ModeSetting extends Setting {
 	public int index;
-
 	public List<String> modes;
 
-	public ModeSetting(String name, Module parent, String defaultMode, String... modes) {
+	public ModeSetting(String name, Module parent, String... modes) {
 		this.name = name;
 		this.parent = parent;
-        this.type = "ModeSetting";
 		this.modes = Arrays.asList(modes);
-		this.index = this.modes.indexOf(defaultMode);
+		this.index = 0;
+        YawnClient.printLog(String.valueOf(this.index));
 	}
 
 	public String getMode() {

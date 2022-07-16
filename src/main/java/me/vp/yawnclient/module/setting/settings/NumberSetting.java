@@ -13,7 +13,6 @@ public class NumberSetting extends Setting {
 	public NumberSetting(String name, Module parent, double value, double minimum, double maximum, double increment) {
 		this.name = name;
 		this.parent = parent;
-        this.type = "NumberSetting";
 		this.value = value;
 		this.minimum = minimum;
 		this.maximum = maximum;

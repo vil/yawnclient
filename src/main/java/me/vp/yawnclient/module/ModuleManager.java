@@ -6,6 +6,8 @@ import java.util.List;
 import me.vp.yawnclient.event.Event;
 import me.vp.yawnclient.event.events.KeyPressEvent;
 import me.vp.yawnclient.module.modules.Clickgui;
+import me.vp.yawnclient.module.modules.Hud;
+import me.vp.yawnclient.module.modules.Sprint;
 import me.vp.yawnclient.module.modules.Test;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
@@ -19,7 +21,9 @@ public class ModuleManager {
 		modules = new ArrayList<>();
 
         modules.add(new Clickgui());
-		modules.add(new Test());
+        modules.add(new Hud());
+        modules.add(new Sprint());
+        modules.add(new Test());
 	}
 
 	public boolean isModuleEnabled(String name) {
@@ -57,6 +61,10 @@ public class ModuleManager {
 				modules.add(m);
 		} return modules;
 	}
+
+    public void onTick() {
+        modules.stream().filter(Module::isEnabled).forEach(Module::onTick);
+    }
 
 	// for key binds (called in MixinKeyboard).
     @Subscribe

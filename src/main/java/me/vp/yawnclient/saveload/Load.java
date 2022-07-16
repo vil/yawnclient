@@ -42,7 +42,7 @@ public class Load {
                     Module m = (Module) var6.next();
                     if (m.getName().equals(line)) {
                         m.toggle();
-                        System.out.println(m.getName() + "penises");
+                        YawnClient.LOGGER.info(m.getName() + " enabled.");
                     }
                 }
             }

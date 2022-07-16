@@ -2,7 +2,6 @@ package me.vp.yawnclient.clickgui.component.components.sub;
 
 import me.vp.yawnclient.clickgui.component.Component;
 import me.vp.yawnclient.clickgui.component.components.Button;
-import me.vp.yawnclient.module.setting.Setting;
 import me.vp.yawnclient.module.setting.settings.NumberSetting;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -14,10 +13,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class Slider extends Component {
-
 	private boolean hovered;
-
-	private NumberSetting set;
+	private final NumberSetting setting;
 	private Button parent;
 	private int offset;
 	private int x;
@@ -26,8 +23,8 @@ public class Slider extends Component {
 
 	private double renderWidth;
 
-	public Slider(NumberSetting value, Button button, int offset) {
-		this.set = value;
+	public Slider(NumberSetting setting, Button button, int offset) {
+		this.setting = new NumberSetting(setting.name, setting.parent, setting.getValue(), setting.getMinimum(), setting.getMaximum(), setting.getIncrement());
 		this.parent = button;
 		this.x = button.parent.getX() + button.parent.getWidth();
 		this.y = button.parent.getY() + button.offset;
@@ -41,7 +38,7 @@ public class Slider extends Component {
 
 		DrawableHelper.fill(matrixStack, parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 12, new Color(150, 150, 150, 128).getRGB());
 		DrawableHelper.fill(matrixStack, parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, new Color(0, 0, 0, 191).getRGB());
-		DrawableHelper.drawStringWithShadow(matrixStack, textRenderer, Formatting.WHITE + this.set.name + ": "+ Formatting.RESET + this.set.getValue() , (parent.parent.getX() + 6),
+		DrawableHelper.drawStringWithShadow(matrixStack, textRenderer, Formatting.WHITE + this.setting.name + ": "+ Formatting.RESET + this.setting.getValue() , (parent.parent.getX() + 6),
                                             (parent.parent.getY() + offset) + 3, new Color(255, 255, 255, 255).getRGB());
 	}
 
@@ -58,18 +55,18 @@ public class Slider extends Component {
 
 		double diff = Math.min(88, Math.max(0, mouseX - this.x));
 
-		double min = set.getMinimum();
-		double max = set.getMaximum();
+		double min = setting.getMinimum();
+		double max = setting.getMaximum();
 
-		renderWidth = (88) * (set.getValue() - min) / (max - min);
+		renderWidth = (88) * (setting.getValue() - min) / (max - min);
 
 		if (dragging) {
 			if (diff == 0) {
-				set.setValue(set.getMinimum());
+				setting.setValue(setting.getMinimum());
 			}
 			else {
 				double newValue = roundToPlace(((diff / 88) * (max - min) + min));
-				set.setValue(newValue);
+				setting.setValue(newValue);
 			}
 		}
 	}
@@ -91,7 +88,7 @@ public class Slider extends Component {
 	}
 
 	@Override
-	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+	public void mouseReleased(int mouseX, int mouseY, int button) {
 		dragging = false;
 	}
 
