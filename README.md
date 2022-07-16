@@ -1,9 +1,10 @@
 # yawnclient
+<img style='width:150px; height:150px;' src="https://github.com/HerraVp/yawnclient/blob/main/src/main/resources/assets/yawnclient/yawn.png?raw=true"/>
+by Vp :)
 
 dont use this, its far from ready yet.
 
-<img style='width:150px; height:150px;' src="https://github.com/HerraVp/yawnclient/blob/main/src/main/resources/assets/yawnclient/yawn.png?raw=true"/>
-by Vp :)
+not even sure if I will finish this thing :)
 
 
 I am lazy so I used bedroom as the base :))))
