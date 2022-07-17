@@ -12,121 +12,125 @@ import net.minecraft.client.MinecraftClient;
 
 public abstract class Module {
     public static MinecraftClient mc = MinecraftClient.getInstance();
-	public String name, description;
+    public String name, description;
     public Module parent;
-	public KeybindSetting keyCode = new KeybindSetting(0);
-	public Category category;
-	public boolean enabled;
-	public int index;
-	public List<Setting> settings = new ArrayList<>();
+    public KeybindSetting keyCode = new KeybindSetting(0);
+    public Category category;
+    public boolean enabled;
+    public List<Setting> settings = new ArrayList<>();
 
     public Module(String name, String description, int key, Category category) {
-		super();
-		this.name = name;
-		this.description = description;
-		keyCode.code = key;
-		addSettings(keyCode);
-		this.category = category;
-		enabled = false;
-	}
+        super();
+        this.name = name;
+        this.description = description;
+        keyCode.code = key;
+        addSettings(keyCode);
+        this.category = category;
+        enabled = false;
+    }
 
 
-	public enum Category {
-		PLAYER("player"),
-		RENDER("render"),
-		COMBAT("combat"),
-		MOVEMENT("movement"),
-		MISC("misc"),
-		CLIENT("client");
-		public final String name;
-		public int moduleIndex;
+    public enum Category {
+        PLAYER("player"),
+        RENDER("render"),
+        COMBAT("combat"),
+        MOVEMENT("movement"),
+        MISC("misc"),
+        CLIENT("client");
+        public final String name;
 
-		Category(String name) {
-			this.name = name;
-		}
-	}
+        Category(String name) {
+            this.name = name;
+        }
+    }
 
-	public void addSettings(Setting... settings) {
-		this.settings.addAll(Arrays.asList(settings));
-		this.settings.sort(Comparator.comparingInt(s -> s == keyCode ? 1 : 0));
-	}
+    public void addSettings(Setting... settings) {
+        this.settings.addAll(Arrays.asList(settings));
+        this.settings.sort(Comparator.comparingInt(s -> s == keyCode ? 1 : 0));
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public Category getCategory() {
-		return this.category;
-	}
+    public Category getCategory() {
+        return this.category;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public int getKey() {
-		return keyCode.code;
-	}
+    public int getKey() {
+        return keyCode.code;
+    }
 
-	public void setKey(int key) {
-		this.keyCode.code = key;
+    public void setKey(int key) {
+        this.keyCode.code = key;
 
-		if (YawnClient.INSTANCE.save != null) {
-			try {
-				YawnClient.INSTANCE.save.saveSettings();
-			} catch (Exception ignored) {}
-		}
-	}
+        if (YawnClient.INSTANCE.save != null) {
+            try {
+                YawnClient.INSTANCE.save.saveSettings();
+            } catch (Exception ignored) {
+            }
+        }
+    }
 
-	public void toggle() {
-		enabled = !enabled;
-		if (enabled) {
-			enable();
-		} else disable();
-	}
+    public void toggle() {
+        enabled = !enabled;
+        if (enabled) {
+            enable();
+        } else disable();
+    }
 
-	public boolean isEnabled() {
-		return enabled;
-	}
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
 
-		if (enabled)
-			onEnable();
-		else
-			onDisable();
-	}
+        if (enabled)
+            onEnable();
+        else
+            onDisable();
+    }
 
-	public void enable() {
-		if (YawnClient.INSTANCE.save != null) {
-			try {
-				YawnClient.INSTANCE.save.saveModules();
-			} catch (Exception ignored) {}
-		}
-		YawnClient.EVENT_BUS.register(this);
-		onEnable();
-		setEnabled(true);
-	}
+    public void enable() {
+        if (YawnClient.INSTANCE.save != null) {
+            try {
+                YawnClient.INSTANCE.save.saveModules();
+            } catch (Exception ignored) {
+            }
+        }
+        YawnClient.EVENT_BUS.register(this);
+        onEnable();
+        setEnabled(true);
+    }
 
-	public void disable() {
-		if (YawnClient.INSTANCE.save != null) {
-			try {
-				YawnClient.INSTANCE.save.saveModules();
-			} catch (Exception ignored) {}
-		}
-		YawnClient.EVENT_BUS.unregister(this);
-		onDisable();
-		setEnabled(false);
-	}
+    public void disable() {
+        if (YawnClient.INSTANCE.save != null) {
+            try {
+                YawnClient.INSTANCE.save.saveModules();
+            } catch (Exception ignored) {
+            }
+        }
+        YawnClient.EVENT_BUS.unregister(this);
+        onDisable();
+        setEnabled(false);
+    }
 
-    public void onTick() {}
+    public void onTick() {
+    }
 
-	public void onEnable() {}
+    public void onEnable() {
+    }
 
-	public void onDisable() {}
+    public void onDisable() {
+    }
 
 }

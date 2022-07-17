@@ -18,54 +18,55 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public final class YawnClient implements ModInitializer {
-	public static YawnClient INSTANCE;
-	public static String name = "YawnClient";
-	public static final String version = "0.1b";
-	public static final MinecraftClient mc = MinecraftClient.getInstance();
+    public static YawnClient INSTANCE;
+    public static String name = "YawnClient";
+    public static final String version = "0.1b";
+    public static final MinecraftClient mc = MinecraftClient.getInstance();
 
-	public YawnClient() {
-		INSTANCE = this;
-	}
+    public YawnClient() {
+        INSTANCE = this;
+    }
 
-	public static final EventBus EVENT_BUS = new EventBus();
-	public ModuleManager moduleManager;
-	public SettingManager settingManager;
-	public CommandManager commandManager;
-	public Save save;
-	public Load load;
+    public static final EventBus EVENT_BUS = new EventBus();
+    public ModuleManager moduleManager;
+    public SettingManager settingManager;
+    public CommandManager commandManager;
+    public Save save;
+    public Load load;
 
-	public static final Logger LOGGER = LogManager.getLogger("yawnclient");
+    public static final Logger LOGGER = LogManager.getLogger("yawnclient");
 
-	public static final Object syncronize = new Object();
-	public static void printLog(String text) {
-		synchronized (syncronize) {
-			LOGGER.info(text);
-		}
-	}
+    public static final Object syncronize = new Object();
 
-	public void addModule(Module module) {
-		moduleManager.modules.add(module);
-	}
+    public static void printLog(String text) {
+        synchronized (syncronize) {
+            LOGGER.info(text);
+        }
+    }
 
-	public void addCommand(Command command) {
-		commandManager.commands.add(command);
-	}
+    public void addModule(Module module) {
+        moduleManager.modules.add(module);
+    }
+
+    public void addCommand(Command command) {
+        commandManager.commands.add(command);
+    }
 
 
-	@Override
-	public void onInitialize() {
-		long startTime = System.currentTimeMillis();
-		printLog("Yawnclient \uD83E\uDD71 " + version + " by Vp");
+    @Override
+    public void onInitialize() {
+        long startTime = System.currentTimeMillis();
+        printLog("Yawnclient \uD83E\uDD71 " + version + " by Vp");
 
-		settingManager = new SettingManager();
-		printLog("setting system initialized.");
+        settingManager = new SettingManager();
+        printLog("setting system initialized.");
 
-		save = new Save();
-		load = new Load();
-		printLog("saves and loads initialized.");
-		long finishTime = System.currentTimeMillis() - startTime;
-		printLog("Yawnclient \uD83E\uDD71 phase 1 initialized in " + finishTime + "ms.");
-	}
+        save = new Save();
+        load = new Load();
+        printLog("saves and loads initialized.");
+        long finishTime = System.currentTimeMillis() - startTime;
+        printLog("Yawnclient \uD83E\uDD71 phase 1 initialized in " + finishTime + "ms.");
+    }
 
     public void yawnInit() {
         long startTime = System.currentTimeMillis();
@@ -73,13 +74,13 @@ public final class YawnClient implements ModInitializer {
         printLog("Settings loaded.");
 
         commandManager = new CommandManager();
-		printLog("command system initialized.");
+        printLog("command system initialized.");
 
-		moduleManager = new ModuleManager();
-		printLog("module system initialized.");
+        moduleManager = new ModuleManager();
+        printLog("module system initialized.");
 
         long finishTime = System.currentTimeMillis() - startTime;
-		printLog("Yawnclient \uD83E\uDD71 phase 2 initialized in " + finishTime + "ms.");
+        printLog("Yawnclient \uD83E\uDD71 phase 2 initialized in " + finishTime + "ms.");
     }
 
     private static String getBuildDay() {

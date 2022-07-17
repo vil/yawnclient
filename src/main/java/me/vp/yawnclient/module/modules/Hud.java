@@ -34,7 +34,7 @@ public class Hud extends Module {
 
         // Watermark
         if (watermark.isEnabled()) {
-            DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, Formatting.DARK_PURPLE + YawnClient.name + " " + Formatting.RESET +  YawnClient.version, 1, 1, 0xFFFFFF);
+            DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, Formatting.DARK_PURPLE + YawnClient.name + " " + Formatting.RESET + YawnClient.version, 1, 1, 0xFFFFFF);
         }
 
         // Logo
@@ -60,7 +60,8 @@ public class Hud extends Module {
             final String nether = "XYZ [" + decimalFormat.format(cx / 8) + ", " + decimalFormat.format(cy) + ", " + decimalFormat.format(cz / 8) + "]";
 
             DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, overWorld, 1, mc.getWindow().getScaledHeight() - 20, Color.LIGHT_GRAY.getRGB());
-            if (netherCoords.isEnabled()) DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, nether, 1, mc.getWindow().getScaledHeight() - 10, Color.RED.getRGB());
+            if (netherCoords.isEnabled())
+                DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, nether, 1, mc.getWindow().getScaledHeight() - 10, Color.RED.getRGB());
         }
     }
 }
