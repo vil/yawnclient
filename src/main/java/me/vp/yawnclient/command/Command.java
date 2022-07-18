@@ -1,12 +1,11 @@
 package me.vp.yawnclient.command;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public abstract class Command {
     public String name, description, syntax;
-    public List<String> aliases = new ArrayList<String>();
+    public List<String> aliases;
 
     public Command(String name, String description, String syntax, String... aliases) {
         this.name = name;

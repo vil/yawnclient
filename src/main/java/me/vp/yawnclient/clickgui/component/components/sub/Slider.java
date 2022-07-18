@@ -24,7 +24,7 @@ public class Slider extends Component {
 	private double renderWidth;
 
 	public Slider(NumberSetting setting, Button button, int offset) {
-		this.setting = new NumberSetting(setting.name, setting.parent, setting.getValue(), setting.getMinimum(), setting.getMaximum(), setting.getIncrement());
+		this.setting = setting;
 		this.parent = button;
 		this.x = button.parent.getX() + button.parent.getWidth();
 		this.y = button.parent.getY() + button.offset;
@@ -79,10 +79,11 @@ public class Slider extends Component {
 
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int button) {
-		if(isMouseOnButtonD(mouseX, mouseY) && button == 0 && this.parent.open) {
+        super.mouseClicked(mouseX, mouseY, button);
+		if (isMouseOnButtonD(mouseX, mouseY) && button == 0 && this.parent.open) {
 			dragging = true;
 		}
-		if(isMouseOnButtonI(mouseX, mouseY) && button == 0 && this.parent.open) {
+		if (isMouseOnButtonI(mouseX, mouseY) && button == 0 && this.parent.open) {
 			dragging = true;
 		}
 	}

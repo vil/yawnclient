@@ -5,10 +5,7 @@ import java.util.List;
 
 import me.vp.yawnclient.event.Event;
 import me.vp.yawnclient.event.events.KeyPressEvent;
-import me.vp.yawnclient.module.modules.Clickgui;
-import me.vp.yawnclient.module.modules.Hud;
-import me.vp.yawnclient.module.modules.Sprint;
-import me.vp.yawnclient.module.modules.Test;
+import me.vp.yawnclient.module.modules.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -21,6 +18,7 @@ public class ModuleManager {
         modules = new ArrayList<>();
 
         modules.add(new Clickgui());
+        modules.add(new Fullbright());
         modules.add(new Hud());
         modules.add(new Sprint());
         modules.add(new Test());

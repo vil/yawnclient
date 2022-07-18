@@ -11,12 +11,11 @@ public class ModeSetting extends Setting {
     public int index;
     public List<String> modes;
 
-    public ModeSetting(String name, Module parent, String... modes) {
+    public ModeSetting(String name, Module parent, String defaultMode, String... modes) {
         this.name = name;
         this.parent = parent;
         this.modes = Arrays.asList(modes);
-        this.index = 0;
-        YawnClient.printLog(String.valueOf(this.index));
+        this.index = this.modes.indexOf(defaultMode);
     }
 
     public String getMode() {
@@ -47,7 +46,7 @@ public class ModeSetting extends Setting {
 
         if (YawnClient.INSTANCE.save != null) {
             try {
-                YawnClient.INSTANCE.save.saveModules();
+                YawnClient.INSTANCE.save.saveSettings();
             } catch (Exception ignored) {
             }
         }

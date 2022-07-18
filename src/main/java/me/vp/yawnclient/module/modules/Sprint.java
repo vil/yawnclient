@@ -7,7 +7,7 @@ import org.lwjgl.glfw.GLFW;
 import org.quantumclient.energy.Subscribe;
 
 public class Sprint extends Module {
-    public final ModeSetting mode = new ModeSetting("Mode", this, "Legit", "Rage");
+    public final ModeSetting mode = new ModeSetting("Mode", this, "Legit", "Legit", "Rage");
     public Sprint() {
         super("Sprint", "Makes the player automatically sprint.", GLFW.GLFW_KEY_UNKNOWN, Category.MOVEMENT);
         this.addSettings(mode);
@@ -16,6 +16,8 @@ public class Sprint extends Module {
     @Override
     public void onDisable() {
         mc.player.setSprinting(false);
+        mc.options.sprintKey.setPressed(false);
+        super.onDisable();
     }
 
     @Subscribe

@@ -1,14 +1,14 @@
 package me.vp.yawnclient.module;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.module.setting.Setting;
 import me.vp.yawnclient.module.setting.settings.KeybindSetting;
 import net.minecraft.client.MinecraftClient;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public abstract class Module {
     public static MinecraftClient mc = MinecraftClient.getInstance();

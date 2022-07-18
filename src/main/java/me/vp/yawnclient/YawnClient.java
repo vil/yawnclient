@@ -1,14 +1,14 @@
 package me.vp.yawnclient;
 
-import me.vp.yawnclient.saveload.Load;
-import me.vp.yawnclient.saveload.Save;
 import me.vp.yawnclient.command.Command;
 import me.vp.yawnclient.command.CommandManager;
-import me.vp.yawnclient.module.ModuleManager;
 import me.vp.yawnclient.module.Module;
+import me.vp.yawnclient.module.ModuleManager;
 import me.vp.yawnclient.module.setting.SettingManager;
-
+import me.vp.yawnclient.saveload.Load;
+import me.vp.yawnclient.saveload.Save;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.MinecraftClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,26 +61,20 @@ public final class YawnClient implements ModInitializer {
         settingManager = new SettingManager();
         printLog("setting system initialized.");
 
-        save = new Save();
-        load = new Load();
-        printLog("saves and loads initialized.");
-        long finishTime = System.currentTimeMillis() - startTime;
-        printLog("Yawnclient \uD83E\uDD71 phase 1 initialized in " + finishTime + "ms.");
-    }
-
-    public void yawnInit() {
-        long startTime = System.currentTimeMillis();
-        load.load();
-        printLog("Settings loaded.");
-
         commandManager = new CommandManager();
         printLog("command system initialized.");
 
         moduleManager = new ModuleManager();
         printLog("module system initialized.");
 
+        save = new Save();
+        load = new Load();
+        load.load();
+        ClientLifecycleEvents.CLIENT_STOPPING.register((minecraftClient) -> save.save());
+        printLog("saves and loads initialized.");
+
         long finishTime = System.currentTimeMillis() - startTime;
-        printLog("Yawnclient \uD83E\uDD71 phase 2 initialized in " + finishTime + "ms.");
+        printLog("Yawnclient \uD83E\uDD71 initialized in " + finishTime + "ms.");
     }
 
     private static String getBuildDay() {

@@ -1,5 +1,6 @@
 package me.vp.yawnclient.clickgui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.module.Module.Category;
 import me.vp.yawnclient.clickgui.component.Frame;
@@ -35,9 +36,7 @@ public class Clickgui extends Screen {
     }
 
     @Override
-    public void init() {
-        YawnClient.EVENT_BUS.register(this);
-    }
+    public void init() {}
 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -47,14 +46,14 @@ public class Clickgui extends Screen {
                 comp.updateComponent(mouseX, mouseY);
             }
         }
-
         matrixStack.push();
         matrixStack.translate(mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight(), 0);
-        matrixStack.scale(0.5f, 0.5f, 0.5f);
-        DrawableHelper.drawStringWithShadow(matrixStack, textRenderer, Formatting.DARK_PURPLE + YawnClient.name + " " + YawnClient.version,
-                mc.textRenderer.getWidth(YawnClient.name + " " + YawnClient.version), -mc.textRenderer.fontHeight, Color.WHITE.getRGB());
-        matrixStack.pop();
+        //matrixStack.scale(0.8f, 0.8f, 0.8f);
+        DrawableHelper.drawStringWithShadow(matrixStack, textRenderer, Formatting.DARK_PURPLE + YawnClient.name + " " + YawnClient.version + " by Vp",
+                mc.textRenderer.getWidth(YawnClient.name + " " + YawnClient.version + " by Vp") - 250, -mc.textRenderer.fontHeight, Color.WHITE.getRGB());
 
+        RenderSystem.enableBlend();
+        matrixStack.pop();
     }
 
 
@@ -73,12 +72,6 @@ public class Clickgui extends Screen {
                 if (!frame.getComponents().isEmpty()) {
                     for (Component component : frame.getComponents()) {
                         component.mouseClicked((int) mouseX, (int) mouseY, button);
-                        if (YawnClient.INSTANCE.save != null) {
-                            try {
-                                YawnClient.INSTANCE.save.saveSettings();
-                            } catch (Exception ignored) {
-                            }
-                        }
                     }
                 }
             }
@@ -99,10 +92,11 @@ public class Clickgui extends Screen {
                 }
             }
         }
+
         if (keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT) this.mc.setScreen(null);
         else if (keyCode == GLFW.GLFW_KEY_ESCAPE) this.mc.setScreen(null);
 
-        return true;
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
@@ -115,10 +109,6 @@ public class Clickgui extends Screen {
                 if (!frame.getComponents().isEmpty()) {
                     for (Component component : frame.getComponents()) {
                         component.mouseReleased((int) mouseX, (int) mouseY, button);
-                        if (YawnClient.INSTANCE.save != null) {
-                            try {YawnClient.INSTANCE.save.saveModules();}
-                            catch (Exception ignored) {}
-                        }
                     }
                 }
             }

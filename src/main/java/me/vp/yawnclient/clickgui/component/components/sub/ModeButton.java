@@ -1,5 +1,6 @@
 package me.vp.yawnclient.clickgui.component.components.sub;
 
+import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.clickgui.component.Component;
 import me.vp.yawnclient.clickgui.component.components.Button;
 
@@ -20,7 +21,7 @@ public class ModeButton extends Component {
     private int index;
 
     public ModeButton(ModeSetting setting, Button button, int offset) {
-        this.setting = new ModeSetting(setting.name, setting.parent, setting.modes.get(this.index));
+        this.setting = setting;
         this.parent = button;
         this.x = button.parent.getX() + button.parent.getWidth();
         this.y = button.parent.getY() + button.offset;
@@ -39,7 +40,7 @@ public class ModeButton extends Component {
                 ? new Color(20, 20, 20, 191).getRGB() : new Color(0, 0, 0, 191).getRGB());
 
         DrawableHelper.fill(matrixStack, parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, new Color(0, 0, 0, 191).getRGB());
-        DrawableHelper.drawStringWithShadow(matrixStack, textRenderer, setting.name + ": " + setting.modes.get(index), (parent.parent.getX() + 6), (parent.parent.getY() + offset) + 3, new Color(255, 255, 255, 255).getRGB());
+        DrawableHelper.drawStringWithShadow(matrixStack, textRenderer, this.setting.name + ": " + this.setting.modes.get(index), (parent.parent.getX() + 6), (parent.parent.getY() + offset) + 3, new Color(255, 255, 255, 255).getRGB());
     }
 
     @Override
@@ -51,15 +52,12 @@ public class ModeButton extends Component {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) {
+        super.mouseClicked(mouseX, mouseY, button);
         if (isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
-            /*
-            if (index + 1 >= setting.modes.size())
-				index = 0;
-			else
-				index++;
-            */
-            setting.cycle();
-            setting.modes.set(index, setting.getMode());
+            this.setting.cycle();
+
+            YawnClient.printLog(String.valueOf(this.index));
+            this.setting.setMode(this.setting.getMode());
         }
     }
 

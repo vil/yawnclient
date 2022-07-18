@@ -22,7 +22,6 @@ public class Hud extends Module {
 
 
     private final Identifier logo1 = new Identifier("yawnclient", "yawn.png");
-
     public Hud() {
         super("Hud", "Renders stuff on screen.", GLFW.GLFW_KEY_UNKNOWN, Category.CLIENT);
         this.addSettings(watermark, logo, coords, netherCoords);
