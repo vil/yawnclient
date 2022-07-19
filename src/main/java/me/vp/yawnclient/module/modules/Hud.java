@@ -5,12 +5,14 @@ import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.event.events.RenderIngameHudEvent;
 import me.vp.yawnclient.module.Module;
 import me.vp.yawnclient.module.setting.settings.BooleanSetting;
+import me.vp.yawnclient.module.setting.settings.ModeSetting;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 import org.quantumclient.energy.Subscribe;
 
@@ -23,15 +25,17 @@ public class Hud extends Module {
     public final BooleanSetting arraylist = new BooleanSetting("ArrayList", this, true);
     public final BooleanSetting fps = new BooleanSetting("Fps", this, false);
     public final BooleanSetting ping = new BooleanSetting("Ping", this, false);
+    public final BooleanSetting speed = new BooleanSetting("Speed", this, false);
     public final BooleanSetting coords = new BooleanSetting("Coords", this, true);
     public final BooleanSetting netherCoords = new BooleanSetting("NetherCoords", this, true);
+    public final BooleanSetting facing = new BooleanSetting("Facing", this, false);
     public final BooleanSetting paperDoll = new BooleanSetting("Paperdoll", this, false);
 
     private final Identifier logo1 = new Identifier("yawnclient", "yawn.png");
 
     public Hud() {
         super("Hud", "Renders stuff on screen.", GLFW.GLFW_KEY_UNKNOWN, Category.CLIENT);
-        this.addSettings(watermark, logo, arraylist, fps, ping, coords, netherCoords, paperDoll);
+        this.addSettings(watermark, logo, arraylist, fps, ping, speed, coords, netherCoords, facing, paperDoll);
     }
 
     @Subscribe
@@ -40,7 +44,7 @@ public class Hud extends Module {
 
         // Watermark
         if (watermark.isEnabled()) {
-            DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, Formatting.DARK_PURPLE + YawnClient.name + " " + Formatting.RESET + YawnClient.version, 1, 1, 0xFFFFFF);
+            DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, YawnClient.name + " " + Formatting.RESET + YawnClient.version, 1, 1, Color.MAGENTA.getRGB());
         }
 
         // Logo
@@ -61,6 +65,18 @@ public class Hud extends Module {
 
         if (ping.isEnabled()) {
             DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, "Ping [" + latency + "ms]", 1, 70, Color.LIGHT_GRAY.getRGB());
+        }
+
+        // Speed
+        if (speed.isEnabled()) {
+            final DecimalFormat decimalFormat = new DecimalFormat("#.#");
+            Vec3d vec = new Vec3d(mc.player.getX() - mc.player.prevX, 0, mc.player.getZ() - mc.player.prevZ).multiply(20);
+            final double speed = Math.abs(vec.length());
+            //final double deltaX = Math.abs(mc.player.getPos().getX() - mc.player.prevX);
+            //final double deltaZ = Math.abs(mc.player.getPos().getZ() - mc.player.prevZ);
+            final String speedString = "Speed [" + decimalFormat.format((speed)) + "km/s]";
+
+            DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, speedString, 1, 80, Color.LIGHT_GRAY.getRGB());
         }
 
         // Coords
@@ -85,6 +101,15 @@ public class Hud extends Module {
                 DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, nether, 1, mc.getWindow().getScaledHeight() - 10, Color.RED.getRGB());
         }
 
+        // Facing
+        if (facing.isEnabled()) {
+            String facing = mc.player.getHorizontalFacing().name().substring(0, 1).toUpperCase()
+                    + mc.player.getHorizontalFacing().name().substring(1).toLowerCase();
+
+            DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, facing, 1, coords.enabled ? mc.getWindow().getScaledHeight() - 30
+                    : mc.getWindow().getScaledHeight() - 10, Color.LIGHT_GRAY.getRGB());
+        }
+
         // ArrayList
         int iteration = 0;
         if (arraylist.isEnabled()) {
@@ -92,8 +117,8 @@ public class Hud extends Module {
                 Module mod = YawnClient.INSTANCE.moduleManager.modules.get(i);
                 if (mod.isEnabled()) {
                     DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, mod.getName(),
-                                                       mc.getWindow().getScaledWidth() - mc.textRenderer.getWidth(mod.getName()), 10 + (iteration * 10),
-                                                        Color.MAGENTA.getRGB());
+                            mc.getWindow().getScaledWidth() - mc.textRenderer.getWidth(mod.getName()), 10 + (iteration * 10),
+                            Color.MAGENTA.getRGB());
                     iteration++;
                 }
             }

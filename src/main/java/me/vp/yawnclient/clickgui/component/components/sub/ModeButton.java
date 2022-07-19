@@ -3,8 +3,8 @@ package me.vp.yawnclient.clickgui.component.components.sub;
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.clickgui.component.Component;
 import me.vp.yawnclient.clickgui.component.components.Button;
-
 import me.vp.yawnclient.module.setting.settings.ModeSetting;
+
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -45,17 +45,18 @@ public class ModeButton extends Component {
         this.hovered = isMouseOnButton(mouseX, mouseY);
         this.y = parent.parent.getY() + offset;
         this.x = parent.parent.getX();
+        super.updateComponent(mouseX, mouseY);
     }
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) {
-        super.mouseClicked(mouseX, mouseY, button);
         if (isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
             this.setting.cycle();
 
             YawnClient.printLog(String.valueOf(this.setting.getMode()));
             this.setting.setMode(this.setting.getMode());
         }
+        super.mouseClicked(mouseX, mouseY, button);
     }
 
     public boolean isMouseOnButton(int x, int y) {

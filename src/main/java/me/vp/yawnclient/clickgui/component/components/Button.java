@@ -1,6 +1,5 @@
 package me.vp.yawnclient.clickgui.component.components;
 
-import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.clickgui.component.Component;
 import me.vp.yawnclient.clickgui.component.Frame;
 import me.vp.yawnclient.clickgui.component.components.sub.Checkbox;
@@ -8,10 +7,10 @@ import me.vp.yawnclient.clickgui.component.components.sub.Keybind;
 import me.vp.yawnclient.clickgui.component.components.sub.ModeButton;
 import me.vp.yawnclient.clickgui.component.components.sub.Slider;
 import me.vp.yawnclient.module.Module;
-import me.vp.yawnclient.module.setting.Setting;
 import me.vp.yawnclient.module.setting.settings.BooleanSetting;
 import me.vp.yawnclient.module.setting.settings.ModeSetting;
 import me.vp.yawnclient.module.setting.settings.NumberSetting;
+
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -101,6 +100,7 @@ public class Button extends Component {
                 comp.updateComponent(mouseX, mouseY);
             }
         }
+        super.updateComponent(mouseX, mouseY);
     }
 
     @Override
@@ -115,6 +115,7 @@ public class Button extends Component {
         for (Component comp : this.subcomponents) {
             comp.mouseClicked(mouseX, mouseY, button);
         }
+        super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
@@ -122,6 +123,7 @@ public class Button extends Component {
         for (Component comp : this.subcomponents) {
             comp.mouseReleased(mouseX, mouseY, button);
         }
+        super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override
@@ -129,6 +131,7 @@ public class Button extends Component {
         for (Component comp : this.subcomponents) {
             comp.keyTyped(keyCode, scanCode, modifiers);
         }
+        super.keyTyped(keyCode, scanCode, modifiers);
     }
 
     public boolean isMouseOnButton(int x, int y) {

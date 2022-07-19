@@ -3,6 +3,7 @@ package me.vp.yawnclient.clickgui.component.components.sub;
 import me.vp.yawnclient.clickgui.component.Component;
 import me.vp.yawnclient.clickgui.component.components.Button;
 import me.vp.yawnclient.module.setting.settings.NumberSetting;
+
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -69,6 +70,7 @@ public class Slider extends Component {
 				setting.setValue(newValue);
 			}
 		}
+        super.updateComponent(mouseX, mouseY);
 	}
 
 	private static double roundToPlace(double value) {
@@ -79,18 +81,19 @@ public class Slider extends Component {
 
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int button) {
-        super.mouseClicked(mouseX, mouseY, button);
 		if (isMouseOnButtonD(mouseX, mouseY) && button == 0 && this.parent.open) {
 			dragging = true;
 		}
 		if (isMouseOnButtonI(mouseX, mouseY) && button == 0 && this.parent.open) {
 			dragging = true;
 		}
+        super.mouseClicked(mouseX, mouseY, button);
 	}
 
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int button) {
 		dragging = false;
+        super.mouseReleased(mouseX, mouseY, button);
 	}
 
 	public boolean isMouseOnButtonD(int x, int y) {

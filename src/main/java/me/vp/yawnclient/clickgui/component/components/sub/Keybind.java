@@ -51,14 +51,15 @@ public class Keybind extends Component {
         this.hovered = isMouseOnButton(mouseX, mouseY);
         this.y = parent.parent.getY() + offset;
         this.x = parent.parent.getX();
+        super.updateComponent(mouseX, mouseY);
     }
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) {
-        super.mouseClicked(mouseX, mouseY, button);
         if (isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
             this.binding = !this.binding;
         }
+        super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override

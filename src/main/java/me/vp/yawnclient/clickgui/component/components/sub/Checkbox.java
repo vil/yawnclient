@@ -1,9 +1,9 @@
 package me.vp.yawnclient.clickgui.component.components.sub;
 
-import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.clickgui.component.Component;
 import me.vp.yawnclient.clickgui.component.components.Button;
 import me.vp.yawnclient.module.setting.settings.BooleanSetting;
+
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -50,18 +50,19 @@ public class Checkbox extends Component {
 		this.hovered = isMouseOnButton(mouseX, mouseY);
 		this.y = parent.parent.getY() + offset;
 		this.x = parent.parent.getX();
+        super.updateComponent(mouseX, mouseY);
 	}
 
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int button) {
-        super.mouseClicked(mouseX, mouseY, button);
 		if (isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
             setting.setEnabled(!setting.isEnabled());
             //YawnClient.printLog(String.valueOf(this.setting.isEnabled()));
 		}
+        super.mouseClicked(mouseX, mouseY, button);
 	}
 
-	public boolean isMouseOnButton(int x, int y) {
+	public boolean isMouseOnButton(double x, double y) {
 		return x > this.x && x < this.x + 88 && y > this.y && y < this.y + 12;
 	}
 }

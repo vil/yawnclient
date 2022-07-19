@@ -1,6 +1,5 @@
 package me.vp.yawnclient.clickgui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.module.Module.Category;
 import me.vp.yawnclient.clickgui.component.Frame;
@@ -11,7 +10,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import com.mojang.blaze3d.systems.RenderSystem;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
@@ -26,9 +25,11 @@ public class Clickgui extends Screen {
         super(Text.literal("Fuck you mojang"));
         frames = new ArrayList<>();
         int frameX = 5;
+        int frameY = 0;
         for (Category category : Category.values()) {
             Frame frame = new Frame(category);
             frame.setX(frameX);
+            frame.setY(frameY);
             frames.add(frame);
             frameX += frame.getWidth() + 1;
         }
@@ -49,10 +50,10 @@ public class Clickgui extends Screen {
         matrixStack.push();
         matrixStack.translate(mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight(), 0);
         //matrixStack.scale(0.8f, 0.8f, 0.8f);
-        DrawableHelper.drawStringWithShadow(matrixStack, textRenderer, Formatting.DARK_PURPLE + YawnClient.name + " " + YawnClient.version + " by Vp",
-                mc.textRenderer.getWidth(YawnClient.name + " " + YawnClient.version + " by Vp") - 250, -mc.textRenderer.fontHeight, Color.WHITE.getRGB());
-
+        DrawableHelper.drawStringWithShadow(matrixStack, textRenderer, YawnClient.name + " " + YawnClient.version + " by Vp",
+                mc.textRenderer.getWidth(YawnClient.name + " " + YawnClient.version + " by Vp") - 250, -mc.textRenderer.fontHeight, Color.MAGENTA.getRGB());
         RenderSystem.enableBlend();
+        RenderSystem.enableDepthTest();
         matrixStack.pop();
     }
 
@@ -62,8 +63,8 @@ public class Clickgui extends Screen {
         for (Frame frame : frames) {
             if (frame.isWithinHeader((int) mouseX, (int) mouseY) && button == 0) {
                 frame.setDrag(true);
-                frame.dragX = (int) mouseX - frame.getX();
-                frame.dragY = (int) mouseY - frame.getY();
+                frame.dragX = (int) (mouseX - frame.getX());
+                frame.dragY = (int) (mouseY - frame.getY());
             }
             if (frame.isWithinHeader((int) mouseX, (int) mouseY) && button == 1) {
                 frame.setOpen(!frame.isOpen());
