@@ -23,6 +23,6 @@ public class Sprint extends Module {
     @Subscribe
     public void onTick(TickEvent event) {
         if (mode.is("Legit")) mc.options.sprintKey.setPressed(true);
-        else if (mode.is("Rage")) mc.player.setSprinting(mc.player.input.movementForward != 0 || mc.player.input.movementSideways != 0);
+        else if (mode.is("Rage")) mc.player.setSprinting(mc.player.forwardSpeed > 0 || mc.player.forwardSpeed < 0 || mc.player.sidewaysSpeed != 0);
     }
 }

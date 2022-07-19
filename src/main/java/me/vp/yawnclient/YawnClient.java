@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 public final class YawnClient implements ModInitializer {
     public static YawnClient INSTANCE;
     public static String name = "YawnClient";
-    public static final String version = "0.1b";
+    public static final String version = "0.2b";
     public static final MinecraftClient mc = MinecraftClient.getInstance();
 
     public YawnClient() {
@@ -70,11 +70,12 @@ public final class YawnClient implements ModInitializer {
         save = new Save();
         load = new Load();
         load.load();
-        ClientLifecycleEvents.CLIENT_STOPPING.register((minecraftClient) -> save.save());
         printLog("saves and loads initialized.");
 
         long finishTime = System.currentTimeMillis() - startTime;
         printLog("Yawnclient \uD83E\uDD71 initialized in " + finishTime + "ms.");
+
+        ClientLifecycleEvents.CLIENT_STOPPING.register((minecraftClient) -> save.save());
     }
 
     private static String getBuildDay() {
