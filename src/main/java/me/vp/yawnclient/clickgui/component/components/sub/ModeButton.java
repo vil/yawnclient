@@ -18,15 +18,12 @@ public class ModeButton extends Component {
     private int offset;
     private int x;
     private int y;
-    private int index;
-
     public ModeButton(ModeSetting setting, Button button, int offset) {
         this.setting = setting;
         this.parent = button;
         this.x = button.parent.getX() + button.parent.getWidth();
         this.y = button.parent.getY() + button.offset;
         this.offset = offset;
-        this.index = 0;
     }
 
     @Override
@@ -40,7 +37,7 @@ public class ModeButton extends Component {
                 ? new Color(20, 20, 20, 191).getRGB() : new Color(0, 0, 0, 191).getRGB());
 
         DrawableHelper.fill(matrixStack, parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, new Color(0, 0, 0, 191).getRGB());
-        DrawableHelper.drawStringWithShadow(matrixStack, textRenderer, this.setting.name + ": " + this.setting.modes.get(index), (parent.parent.getX() + 6), (parent.parent.getY() + offset) + 3, new Color(255, 255, 255, 255).getRGB());
+        DrawableHelper.drawStringWithShadow(matrixStack, textRenderer, this.setting.name + ": " + this.setting.getMode(), (parent.parent.getX() + 6), (parent.parent.getY() + offset) + 3, new Color(255, 255, 255, 255).getRGB());
     }
 
     @Override
@@ -56,7 +53,7 @@ public class ModeButton extends Component {
         if (isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
             this.setting.cycle();
 
-            YawnClient.printLog(String.valueOf(this.index));
+            YawnClient.printLog(String.valueOf(this.setting.getMode()));
             this.setting.setMode(this.setting.getMode());
         }
     }
