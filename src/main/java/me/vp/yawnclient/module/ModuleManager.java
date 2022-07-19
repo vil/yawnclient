@@ -3,7 +3,6 @@ package me.vp.yawnclient.module;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.vp.yawnclient.event.Event;
 import me.vp.yawnclient.event.events.KeyPressEvent;
 import me.vp.yawnclient.module.modules.*;
 import net.minecraft.client.MinecraftClient;
@@ -21,7 +20,6 @@ public class ModuleManager {
         modules.add(new Fullbright());
         modules.add(new Hud());
         modules.add(new Sprint());
-        modules.add(new Test());
     }
 
     public boolean isModuleEnabled(String name) {
