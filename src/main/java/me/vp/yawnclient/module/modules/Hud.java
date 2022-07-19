@@ -44,7 +44,7 @@ public class Hud extends Module {
 
         // Watermark
         if (watermark.isEnabled()) {
-            DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, YawnClient.name + " " + Formatting.RESET + YawnClient.version, 1, 1, Color.MAGENTA.getRGB());
+            DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, YawnClient.name + " " + YawnClient.version, 1, 1, Color.MAGENTA.getRGB());
         }
 
         // Logo
@@ -72,8 +72,6 @@ public class Hud extends Module {
             final DecimalFormat decimalFormat = new DecimalFormat("#.#");
             Vec3d vec = new Vec3d(mc.player.getX() - mc.player.prevX, 0, mc.player.getZ() - mc.player.prevZ).multiply(20);
             final double speed = Math.abs(vec.length());
-            //final double deltaX = Math.abs(mc.player.getPos().getX() - mc.player.prevX);
-            //final double deltaZ = Math.abs(mc.player.getPos().getZ() - mc.player.prevZ);
             final String speedString = "Speed [" + decimalFormat.format((speed)) + "km/s]";
 
             DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, speedString, 1, 80, Color.LIGHT_GRAY.getRGB());

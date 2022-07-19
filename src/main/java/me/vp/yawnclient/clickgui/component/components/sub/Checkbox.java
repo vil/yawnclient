@@ -62,7 +62,7 @@ public class Checkbox extends Component {
         super.mouseClicked(mouseX, mouseY, button);
 	}
 
-	public boolean isMouseOnButton(double x, double y) {
+	public boolean isMouseOnButton(int x, int y) {
 		return x > this.x && x < this.x + 88 && y > this.y && y < this.y + 12;
 	}
 }
