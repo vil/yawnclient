@@ -1,6 +1,7 @@
-package me.vp.yawnclient.module.setting;
+package me.vp.yawnclient.setting;
 
 import me.vp.yawnclient.YawnClient;
+import me.vp.yawnclient.setting.Setting;
 import me.vp.yawnclient.module.Module;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class SettingManager {
                 }
             }
         }
-        YawnClient.LOGGER.error("Setting NOT found: '" + name + "'!");
+        YawnClient.printError("Setting NOT found: '" + name + "'!");
         return null;
     }
 }

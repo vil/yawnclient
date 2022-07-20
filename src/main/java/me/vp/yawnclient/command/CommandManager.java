@@ -57,12 +57,7 @@ public class CommandManager {
     public void setCommandPrefix(String pre) {
         this.prefix = pre;
 
-        if (YawnClient.INSTANCE.save != null) {
-            try {
-                YawnClient.INSTANCE.save.savePrefix();
-            } catch (Exception ignored) {
-            }
-        }
+        YawnClient.INSTANCE.configManager.save();
     }
 
     public Command getCommand(String name) {

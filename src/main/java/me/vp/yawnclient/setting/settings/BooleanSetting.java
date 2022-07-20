@@ -1,8 +1,8 @@
-package me.vp.yawnclient.module.setting.settings;
+package me.vp.yawnclient.setting.settings;
 
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.module.Module;
-import me.vp.yawnclient.module.setting.Setting;
+import me.vp.yawnclient.setting.Setting;
 
 
 public class BooleanSetting extends Setting {
@@ -21,12 +21,7 @@ public class BooleanSetting extends Setting {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
 
-        if (YawnClient.INSTANCE.save != null) {
-            try {
-                YawnClient.INSTANCE.save.saveSettings();
-            } catch (Exception ignored) {
-            }
-        }
+        YawnClient.INSTANCE.configManager.save();
     }
 
     public void toggle() {

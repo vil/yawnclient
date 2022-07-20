@@ -1,8 +1,8 @@
 package me.vp.yawnclient.module;
 
 import me.vp.yawnclient.YawnClient;
-import me.vp.yawnclient.module.setting.Setting;
-import me.vp.yawnclient.module.setting.settings.KeybindSetting;
+import me.vp.yawnclient.setting.Setting;
+import me.vp.yawnclient.setting.settings.KeybindSetting;
 import net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
@@ -72,12 +72,7 @@ public abstract class Module {
     public void setKey(int key) {
         this.keyCode.code = key;
 
-        if (YawnClient.INSTANCE.save != null) {
-            try {
-                YawnClient.INSTANCE.save.saveSettings();
-            } catch (Exception ignored) {
-            }
-        }
+        YawnClient.INSTANCE.configManager.save();
     }
 
     public void toggle() {
@@ -101,24 +96,14 @@ public abstract class Module {
     }
 
     public void enable() {
-        if (YawnClient.INSTANCE.save != null) {
-            try {
-                YawnClient.INSTANCE.save.saveModules();
-            } catch (Exception ignored) {
-            }
-        }
+        YawnClient.INSTANCE.configManager.save();
         YawnClient.EVENT_BUS.register(this);
         onEnable();
         setEnabled(true);
     }
 
     public void disable() {
-        if (YawnClient.INSTANCE.save != null) {
-            try {
-                YawnClient.INSTANCE.save.saveModules();
-            } catch (Exception ignored) {
-            }
-        }
+        YawnClient.INSTANCE.configManager.save();
         YawnClient.EVENT_BUS.unregister(this);
         onDisable();
         setEnabled(false);

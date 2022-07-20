@@ -3,7 +3,7 @@ package me.vp.yawnclient.clickgui.component.components.sub;
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.clickgui.component.Component;
 import me.vp.yawnclient.clickgui.component.components.Button;
-import me.vp.yawnclient.module.setting.settings.ModeSetting;
+import me.vp.yawnclient.setting.settings.ModeSetting;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -53,8 +53,8 @@ public class ModeButton extends Component {
         if (isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
             this.setting.cycle();
 
-            YawnClient.printLog(String.valueOf(this.setting.getMode()));
             this.setting.setMode(this.setting.getMode());
+            YawnClient.INSTANCE.configManager.save();
         }
         super.mouseClicked(mouseX, mouseY, button);
     }

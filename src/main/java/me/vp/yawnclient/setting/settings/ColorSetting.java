@@ -1,9 +1,9 @@
-package me.vp.yawnclient.module.setting.settings;
+package me.vp.yawnclient.setting.settings;
 
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.util.JColor;
 import me.vp.yawnclient.module.Module;
-import me.vp.yawnclient.module.setting.Setting;
+import me.vp.yawnclient.setting.Setting;
 
 public class ColorSetting extends Setting {
 
@@ -40,12 +40,7 @@ public class ColorSetting extends Setting {
         this.rainbow = rainbow;
         this.value = value;
 
-        if (YawnClient.INSTANCE.save != null) {
-            try {
-                YawnClient.INSTANCE.save.saveSettings();
-            } catch (Exception ignored) {
-            }
-        }
+        YawnClient.INSTANCE.configManager.save();
     }
 
     public long toInteger() {

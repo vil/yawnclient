@@ -7,9 +7,8 @@ import me.vp.yawnclient.clickgui.component.components.sub.Keybind;
 import me.vp.yawnclient.clickgui.component.components.sub.ModeButton;
 import me.vp.yawnclient.clickgui.component.components.sub.Slider;
 import me.vp.yawnclient.module.Module;
-import me.vp.yawnclient.module.setting.settings.BooleanSetting;
-import me.vp.yawnclient.module.setting.settings.ModeSetting;
-import me.vp.yawnclient.module.setting.settings.NumberSetting;
+import me.vp.yawnclient.setting.settings.*;
+
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;

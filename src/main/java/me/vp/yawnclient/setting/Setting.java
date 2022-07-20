@@ -1,4 +1,4 @@
-package me.vp.yawnclient.module.setting;
+package me.vp.yawnclient.setting;
 
 import me.vp.yawnclient.module.Module;
 

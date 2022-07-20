@@ -1,8 +1,8 @@
-package me.vp.yawnclient.module.setting.settings;
+package me.vp.yawnclient.setting.settings;
 
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.module.Module;
-import me.vp.yawnclient.module.setting.Setting;
+import me.vp.yawnclient.setting.Setting;
 
 public class NumberSetting extends Setting {
     public double value;
@@ -28,12 +28,7 @@ public class NumberSetting extends Setting {
         //this.value = value;
         this.value = Math.round(Math.max(this.minimum, Math.min(this.maximum, value)) * precision) / precision;
 
-        if (YawnClient.INSTANCE.save != null) {
-            try {
-                YawnClient.INSTANCE.save.saveSettings();
-            } catch (Exception ignored) {
-            }
-        }
+        YawnClient.INSTANCE.configManager.save();
     }
 
     public void increment(boolean positive) {

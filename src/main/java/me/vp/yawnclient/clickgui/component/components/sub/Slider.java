@@ -1,9 +1,9 @@
 package me.vp.yawnclient.clickgui.component.components.sub;
 
+import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.clickgui.component.Component;
 import me.vp.yawnclient.clickgui.component.components.Button;
-import me.vp.yawnclient.module.setting.settings.NumberSetting;
-
+import me.vp.yawnclient.setting.settings.NumberSetting;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -83,9 +83,11 @@ public class Slider extends Component {
 	public void mouseClicked(int mouseX, int mouseY, int button) {
 		if (isMouseOnButtonD(mouseX, mouseY) && button == 0 && this.parent.open) {
 			dragging = true;
+            YawnClient.INSTANCE.configManager.save();
 		}
 		if (isMouseOnButtonI(mouseX, mouseY) && button == 0 && this.parent.open) {
 			dragging = true;
+            YawnClient.INSTANCE.configManager.save();
 		}
         super.mouseClicked(mouseX, mouseY, button);
 	}

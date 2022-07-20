@@ -1,26 +1,106 @@
-package me.vp.yawnclient.saveload;
+package me.vp.yawnclient.setting;
 
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.module.Module;
-import me.vp.yawnclient.module.setting.Setting;
-import me.vp.yawnclient.module.setting.settings.*;
+import me.vp.yawnclient.setting.settings.*;
 import net.minecraft.client.MinecraftClient;
 
 import java.io.*;
-import java.util.Iterator;
-
-public class Load {
+import java.util.ArrayList;
+public class ConfigManager {
     public File MainDirectory;
 
-    public Load() {
+    public ConfigManager() {
         MainDirectory = new File(MinecraftClient.getInstance().runDirectory, YawnClient.name);
         if (!MainDirectory.exists()) {
             MainDirectory.mkdir();
         }
-
-        load();
     }
 
+    // ---------- Save ----------
+
+    public void save() {
+        saveModules();
+        saveSettings();
+        savePrefix();
+    }
+
+    private void writeFile(ArrayList<String> toSave, File file) {
+        try {
+            PrintWriter printWriter = new PrintWriter(file);
+            for (String string : toSave) {
+                printWriter.println(string);
+            }
+            printWriter.close();
+        } catch (FileNotFoundException ignored) {
+        }
+    }
+
+    public void saveModules() {
+        try {
+            File file = new File(MainDirectory, "modules.txt");
+            ArrayList<String> toSave = new ArrayList<>();
+
+            for (Module module : YawnClient.INSTANCE.moduleManager.getModules()) {
+                if (module.isEnabled() && !module.getName().equalsIgnoreCase("Clickgui") && !module.getName().equalsIgnoreCase("hudeditor") &&
+                        !module.getName().equalsIgnoreCase("commandline") && !module.getName().equalsIgnoreCase("options")) {
+                    toSave.add(module.getName());
+                }
+            }
+
+            writeFile(toSave, file);
+        } catch (Exception ignored) {
+        }
+    }
+
+    public void saveSettings() {
+        try {
+            File file = new File(MainDirectory, "settings.txt");
+            ArrayList<String> toSave = new ArrayList<>();
+
+            for (Module mod : YawnClient.INSTANCE.moduleManager.modules) {
+                for (Setting setting : mod.settings) {
+
+                    if (setting instanceof BooleanSetting bool) {
+                        toSave.add(mod.getName() + ":" + setting.name + ":" + bool.isEnabled());
+                    }
+
+                    if (setting instanceof NumberSetting number) {
+                        toSave.add(mod.getName() + ":" + setting.name + ":" + number.getValue());
+                    }
+
+                    if (setting instanceof ModeSetting mode) {
+                        toSave.add(mod.getName() + ":" + setting.name + ":" + mode.getMode());
+                    }
+
+                    if (setting instanceof ColorSetting color) {
+                        toSave.add(mod.getName() + ":" + setting.name + ":" + color.toInteger() + ":" + color.getRainbow());
+                    }
+
+                    if (setting instanceof KeybindSetting keybind) {
+                        toSave.add(mod.getName() + ":" + setting.name + ":" + mod.getKey());
+                    }
+                }
+            }
+
+            writeFile(toSave, file);
+        } catch (Exception ignored) {
+        }
+    }
+
+    public void savePrefix() {
+        try {
+            File file = new File(MainDirectory, "prefix.txt");
+            ArrayList<String> toSave = new ArrayList<>();
+
+            toSave.add(YawnClient.INSTANCE.commandManager.prefix);
+
+            writeFile(toSave, file);
+        } catch (Exception ignored) {
+        }
+    }
+
+    // ---------- Load ----------
     public void load() {
         loadModules();
         loadSettings();
@@ -36,13 +116,10 @@ public class Load {
 
             String line;
             while ((line = br.readLine()) != null) {
-                Iterator var6 = YawnClient.INSTANCE.moduleManager.getModules().iterator();
-
-                while (var6.hasNext()) {
-                    Module m = (Module) var6.next();
+                for (Module m : YawnClient.INSTANCE.moduleManager.getModules()) {
                     if (m.getName().equals(line)) {
                         m.toggle();
-                        YawnClient.LOGGER.info(m.getName() + " enabled.");
+                        YawnClient.printInfo(m.getName() + " enabled.");
                     }
                 }
             }
@@ -68,7 +145,7 @@ public class Load {
                 String value = curLine.split(":")[2];
 
                 Module module = YawnClient.INSTANCE.moduleManager.getModule(modname);
-                if(module != null) {
+                if (module != null) {
                     if (!settingname.equals("KeyBind")) {
                         Setting setting = YawnClient.INSTANCE.settingManager.getSettingByName(module, settingname);
                         if (setting instanceof BooleanSetting) {
@@ -79,11 +156,11 @@ public class Load {
                             ((NumberSetting) setting).setValue(Double.parseDouble(value));
                         }
 
-                        if (setting instanceof ModeSetting && ((ModeSetting) setting).modes.toString().contains(value)) { // u have to make sure the mode getting loaded actually still exists or else u will have angry mob of ppl telling u ur config is fucking garbage... but actually yes ur config is fucking garbage because u wrote it when u were fucking monke and didn't know wtf u were doing, like seriously come on now, who the fuck writes a config in a normal fucking txt file, r u fucking stupid??????? like just do it in fucking json u fucking dumb cunt. goated redpilled postman comment.
+                        if (setting instanceof ModeSetting && ((ModeSetting) setting).modes.toString().contains(value)) {
                             ((ModeSetting) setting).setMode(value);
                         }
 
-                        if(setting instanceof ColorSetting) {
+                        if (setting instanceof ColorSetting) {
                             ((ColorSetting) setting).setRainbow(Boolean.parseBoolean(curLine.split(":")[3]));
                             ((ColorSetting) setting).fromInteger(Integer.parseInt(value));
                         }
@@ -91,7 +168,7 @@ public class Load {
                         if (setting instanceof KeybindSetting) {
                             ((KeybindSetting) setting).setKeyCode(Integer.parseInt(value));
                         }
-                    }else
+                    } else
                         module.setKey(Integer.parseInt(value));
                 }
             }
@@ -117,5 +194,4 @@ public class Load {
         } catch (Exception ignored) {
         }
     }
-
 }

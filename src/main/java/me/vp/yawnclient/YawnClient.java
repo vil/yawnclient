@@ -4,14 +4,17 @@ import me.vp.yawnclient.command.Command;
 import me.vp.yawnclient.command.CommandManager;
 import me.vp.yawnclient.module.Module;
 import me.vp.yawnclient.module.ModuleManager;
-import me.vp.yawnclient.module.setting.SettingManager;
-import me.vp.yawnclient.saveload.Load;
-import me.vp.yawnclient.saveload.Save;
+import me.vp.yawnclient.setting.ConfigManager;
+import me.vp.yawnclient.setting.SettingManager;
+
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+
 import net.minecraft.client.MinecraftClient;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.quantumclient.energy.EventBus;
 
 import java.time.LocalDateTime;
@@ -20,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 public final class YawnClient implements ModInitializer {
     public static YawnClient INSTANCE;
     public static String name = "YawnClient";
-    public static final String version = "0.2b";
+    public static final String version = "0.2.1b";
     public static final MinecraftClient mc = MinecraftClient.getInstance();
 
     public YawnClient() {
@@ -31,16 +34,21 @@ public final class YawnClient implements ModInitializer {
     public ModuleManager moduleManager;
     public SettingManager settingManager;
     public CommandManager commandManager;
-    public Save save;
-    public Load load;
+    public ConfigManager configManager;
 
     public static final Logger LOGGER = LogManager.getLogger("yawnclient");
 
     public static final Object syncronize = new Object();
 
-    public static void printLog(String text) {
+    public static void printInfo(String text) {
         synchronized (syncronize) {
             LOGGER.info(text);
+        }
+    }
+
+    public static void printError(String text) {
+        synchronized (syncronize) {
+            LOGGER.error(text);
         }
     }
 
@@ -56,26 +64,26 @@ public final class YawnClient implements ModInitializer {
     @Override
     public void onInitialize() {
         long startTime = System.currentTimeMillis();
-        printLog("Yawnclient \uD83E\uDD71 " + version + " by Vp");
+        printInfo("Yawnclient \uD83E\uDD71 " + version + " by Vp");
 
         settingManager = new SettingManager();
-        printLog("setting system initialized.");
+        printInfo("setting system initialized.");
 
         commandManager = new CommandManager();
-        printLog("command system initialized.");
+        printInfo("command system initialized.");
 
         moduleManager = new ModuleManager();
-        printLog("module system initialized.");
+        printInfo("module system initialized.");
 
-        save = new Save();
-        load = new Load();
-        load.load();
-        printLog("saves and loads initialized.");
+
+        configManager = new ConfigManager();
+        printInfo("config manager initialized.");
+        configManager.load();
 
         long finishTime = System.currentTimeMillis() - startTime;
-        printLog("Yawnclient \uD83E\uDD71 initialized in " + finishTime + "ms.");
+        printInfo("Yawnclient \uD83E\uDD71 initialized in " + finishTime + "ms.");
 
-        ClientLifecycleEvents.CLIENT_STOPPING.register((minecraftClient) -> save.save());
+        ClientLifecycleEvents.CLIENT_STOPPING.register((minecraftClient) -> configManager.save());
     }
 
     private static String getBuildDay() {

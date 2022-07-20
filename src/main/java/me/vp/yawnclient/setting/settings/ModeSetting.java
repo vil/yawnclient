@@ -1,8 +1,8 @@
-package me.vp.yawnclient.module.setting.settings;
+package me.vp.yawnclient.setting.settings;
 
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.module.Module;
-import me.vp.yawnclient.module.setting.Setting;
+import me.vp.yawnclient.setting.Setting;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,12 +25,7 @@ public class ModeSetting extends Setting {
     public void setMode(String mode) {
         this.index = this.modes.indexOf(mode);
 
-        if (YawnClient.INSTANCE.save != null) {
-            try {
-                YawnClient.INSTANCE.save.saveSettings();
-            } catch (Exception ignored) {
-            }
-        }
+        YawnClient.INSTANCE.configManager.save();
     }
 
     public boolean is(String mode) {
@@ -44,11 +39,6 @@ public class ModeSetting extends Setting {
             this.index = 0;
         }
 
-        if (YawnClient.INSTANCE.save != null) {
-            try {
-                YawnClient.INSTANCE.save.saveSettings();
-            } catch (Exception ignored) {
-            }
-        }
+        YawnClient.INSTANCE.configManager.save();
     }
 }

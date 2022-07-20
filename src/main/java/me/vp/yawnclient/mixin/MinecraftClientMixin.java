@@ -19,7 +19,7 @@ public class MinecraftClientMixin {
     @Inject(at = {@At(value = "HEAD")}, method = {"close()V"})
     private void onClose(CallbackInfo ci) {
         try {
-            YawnClient.INSTANCE.save.save();
+            YawnClient.INSTANCE.configManager.save();
         } catch (Exception e) {
             e.printStackTrace();
         }

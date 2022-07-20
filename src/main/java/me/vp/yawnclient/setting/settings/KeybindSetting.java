@@ -1,8 +1,8 @@
-package me.vp.yawnclient.module.setting.settings;
+package me.vp.yawnclient.setting.settings;
 
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.module.Module;
-import me.vp.yawnclient.module.setting.Setting;
+import me.vp.yawnclient.setting.Setting;
 
 public class KeybindSetting extends Setting {
 
@@ -24,12 +24,7 @@ public class KeybindSetting extends Setting {
     public void setKeyCode(int code) {
         this.code = code;
 
-        if (YawnClient.INSTANCE.save != null) {
-            try {
-                YawnClient.INSTANCE.save.saveSettings();
-            } catch (Exception ignored) {
-            }
-        }
+        YawnClient.INSTANCE.configManager.save();
     }
 
 }

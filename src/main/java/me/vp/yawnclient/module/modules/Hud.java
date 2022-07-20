@@ -4,8 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.event.events.RenderIngameHudEvent;
 import me.vp.yawnclient.module.Module;
-import me.vp.yawnclient.module.setting.settings.BooleanSetting;
-import me.vp.yawnclient.module.setting.settings.ModeSetting;
+import me.vp.yawnclient.setting.settings.BooleanSetting;
+import me.vp.yawnclient.setting.settings.ModeSetting;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.PlayerListEntry;
@@ -72,7 +72,7 @@ public class Hud extends Module {
             final DecimalFormat decimalFormat = new DecimalFormat("#.#");
             Vec3d vec = new Vec3d(mc.player.getX() - mc.player.prevX, 0, mc.player.getZ() - mc.player.prevZ).multiply(20);
             final double speed = Math.abs(vec.length());
-            final String speedString = "Speed [" + decimalFormat.format((speed)) + "km/s]";
+            final String speedString = "Speed [" + decimalFormat.format((speed)) + "km/h]";
 
             DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, speedString, 1, 80, Color.LIGHT_GRAY.getRGB());
         }

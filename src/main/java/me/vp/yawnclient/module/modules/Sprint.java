@@ -2,7 +2,7 @@ package me.vp.yawnclient.module.modules;
 
 import me.vp.yawnclient.event.events.TickEvent;
 import me.vp.yawnclient.module.Module;
-import me.vp.yawnclient.module.setting.settings.ModeSetting;
+import me.vp.yawnclient.setting.settings.ModeSetting;
 import org.lwjgl.glfw.GLFW;
 import org.quantumclient.energy.Subscribe;
 
