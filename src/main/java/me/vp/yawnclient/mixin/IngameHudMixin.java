@@ -14,7 +14,7 @@ public class IngameHudMixin {
     @Inject(method = "render", at = @At("RETURN"), cancellable = true)
 	private void render(MatrixStack matrixStack, float tickDelta, CallbackInfo ci) {
 		RenderIngameHudEvent event = new RenderIngameHudEvent(matrixStack);
-		YawnClient.EVENT_BUS.post(event);
+		YawnClient.INSTANCE.EVENT_BUS.post(event);
 
 		if (event.isCancelled()) {
 			ci.cancel();

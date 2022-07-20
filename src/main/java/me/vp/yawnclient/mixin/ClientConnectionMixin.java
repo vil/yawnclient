@@ -21,7 +21,7 @@ public class ClientConnectionMixin {
     @Inject(method = "channelRead0*", at = @At("HEAD"), cancellable = true)
     public void channelRead0(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
         PacketEvent.Receive event = new PacketEvent.Receive(packet);
-        YawnClient.EVENT_BUS.post(event);
+        YawnClient.INSTANCE.EVENT_BUS.post(event);
         if (event.isCancelled()) ci.cancel();
     }
 
@@ -35,7 +35,7 @@ public class ClientConnectionMixin {
 		}
         
         PacketEvent.Send event = new PacketEvent.Send(packet);
-        YawnClient.EVENT_BUS.post(event);
+        YawnClient.INSTANCE.EVENT_BUS.post(event);
         if (event.isCancelled()) ci.cancel();
     }
 }

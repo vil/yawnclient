@@ -1,6 +1,5 @@
 package me.vp.yawnclient.clickgui.component.components.sub;
 
-import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.clickgui.component.Component;
 import me.vp.yawnclient.clickgui.component.components.Button;
 import me.vp.yawnclient.setting.settings.BooleanSetting;
@@ -58,7 +57,6 @@ public class Checkbox extends Component {
 	public void mouseClicked(int mouseX, int mouseY, int button) {
 		if (isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
             setting.setEnabled(!setting.isEnabled());
-			YawnClient.INSTANCE.configManager.save();
 		}
         super.mouseClicked(mouseX, mouseY, button);
 	}

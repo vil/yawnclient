@@ -72,7 +72,8 @@ public abstract class Module {
     public void setKey(int key) {
         this.keyCode.code = key;
 
-        YawnClient.INSTANCE.configManager.save();
+        if (YawnClient.INSTANCE.configManager != null)
+            YawnClient.INSTANCE.configManager.save();
     }
 
     public void toggle() {
@@ -96,15 +97,13 @@ public abstract class Module {
     }
 
     public void enable() {
-        YawnClient.INSTANCE.configManager.save();
-        YawnClient.EVENT_BUS.register(this);
+        YawnClient.INSTANCE.EVENT_BUS.register(this);
         onEnable();
         setEnabled(true);
     }
 
     public void disable() {
-        YawnClient.INSTANCE.configManager.save();
-        YawnClient.EVENT_BUS.unregister(this);
+        YawnClient.INSTANCE.EVENT_BUS.unregister(this);
         onDisable();
         setEnabled(false);
     }

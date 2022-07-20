@@ -7,9 +7,10 @@ import me.vp.yawnclient.clickgui.component.components.sub.Keybind;
 import me.vp.yawnclient.clickgui.component.components.sub.ModeButton;
 import me.vp.yawnclient.clickgui.component.components.sub.Slider;
 import me.vp.yawnclient.module.Module;
-import me.vp.yawnclient.setting.settings.*;
-
-
+import me.vp.yawnclient.setting.Setting;
+import me.vp.yawnclient.setting.settings.BooleanSetting;
+import me.vp.yawnclient.setting.settings.ModeSetting;
+import me.vp.yawnclient.setting.settings.NumberSetting;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -38,16 +39,16 @@ public class Button extends Component {
         opY = offset + 12;
 
         // I am losing braincells
-        mod.settings.forEach(setting -> {
+        for (Setting setting : mod.settings) {
             if (mod.settings != null) {
                 if (setting instanceof BooleanSetting)
                     subcomponents.add(new Checkbox((BooleanSetting) setting, this, opY));
-                else if (setting instanceof ModeSetting)
+                if (setting instanceof ModeSetting)
                     subcomponents.add(new ModeButton((ModeSetting) setting, this, opY));
-                else if (setting instanceof NumberSetting)
+                if (setting instanceof NumberSetting)
                     subcomponents.add(new Slider((NumberSetting) setting, this, opY));
             }
-        });
+        }
         this.subcomponents.add(new Keybind(this, opY));
     }
 

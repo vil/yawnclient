@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 
 import java.io.*;
 import java.util.ArrayList;
+
 public class ConfigManager {
     public File MainDirectory;
 
@@ -49,7 +50,8 @@ public class ConfigManager {
             }
 
             writeFile(toSave, file);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -58,33 +60,34 @@ public class ConfigManager {
             File file = new File(MainDirectory, "settings.txt");
             ArrayList<String> toSave = new ArrayList<>();
 
-            for (Module mod : YawnClient.INSTANCE.moduleManager.modules) {
+            YawnClient.INSTANCE.moduleManager.getModules().forEach(mod -> {
                 for (Setting setting : mod.settings) {
 
-                    if (setting instanceof BooleanSetting bool) {
-                        toSave.add(mod.getName() + ":" + setting.name + ":" + bool.isEnabled());
+                    if (setting instanceof BooleanSetting) {
+                        toSave.add(mod.getName() + ":" + setting.name + ":" + ((BooleanSetting) setting).isEnabled());
                     }
 
-                    if (setting instanceof NumberSetting number) {
-                        toSave.add(mod.getName() + ":" + setting.name + ":" + number.getValue());
+                    if (setting instanceof NumberSetting) {
+                        toSave.add(mod.getName() + ":" + setting.name + ":" + ((NumberSetting) setting).getValue());
                     }
 
-                    if (setting instanceof ModeSetting mode) {
-                        toSave.add(mod.getName() + ":" + setting.name + ":" + mode.getMode());
+                    if (setting instanceof ModeSetting) {
+                        toSave.add(mod.getName() + ":" + setting.name + ":" + ((ModeSetting) setting).getMode());
                     }
 
-                    if (setting instanceof ColorSetting color) {
-                        toSave.add(mod.getName() + ":" + setting.name + ":" + color.toInteger() + ":" + color.getRainbow());
+                    if (setting instanceof ColorSetting) {
+                        toSave.add(mod.getName() + ":" + setting.name + ":" + ((ColorSetting) setting).toInteger() + ":" + ((ColorSetting) setting).getRainbow());
                     }
 
-                    if (setting instanceof KeybindSetting keybind) {
+                    if (setting instanceof KeybindSetting) {
                         toSave.add(mod.getName() + ":" + setting.name + ":" + mod.getKey());
                     }
                 }
-            }
+            });
 
             writeFile(toSave, file);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -96,7 +99,8 @@ public class ConfigManager {
             toSave.add(YawnClient.INSTANCE.commandManager.prefix);
 
             writeFile(toSave, file);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -123,9 +127,9 @@ public class ConfigManager {
                     }
                 }
             }
-
             br.close();
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -143,38 +147,29 @@ public class ConfigManager {
                 String modname = curLine.split(":")[0];
                 String settingname = curLine.split(":")[1];
                 String value = curLine.split(":")[2];
-
                 Module module = YawnClient.INSTANCE.moduleManager.getModule(modname);
+
                 if (module != null) {
                     if (!settingname.equals("KeyBind")) {
                         Setting setting = YawnClient.INSTANCE.settingManager.getSettingByName(module, settingname);
                         if (setting instanceof BooleanSetting) {
                             ((BooleanSetting) setting).setEnabled(Boolean.parseBoolean(value));
-                        }
-
-                        if (setting instanceof NumberSetting) {
+                        } if (setting instanceof NumberSetting) {
                             ((NumberSetting) setting).setValue(Double.parseDouble(value));
-                        }
-
-                        if (setting instanceof ModeSetting && ((ModeSetting) setting).modes.toString().contains(value)) {
+                        } if (setting instanceof ModeSetting && ((ModeSetting) setting).modes.toString().contains(value)) {
                             ((ModeSetting) setting).setMode(value);
-                        }
-
-                        if (setting instanceof ColorSetting) {
+                        } if (setting instanceof ColorSetting) {
                             ((ColorSetting) setting).setRainbow(Boolean.parseBoolean(curLine.split(":")[3]));
                             ((ColorSetting) setting).fromInteger(Integer.parseInt(value));
-                        }
-
-                        if (setting instanceof KeybindSetting) {
+                        } if (setting instanceof KeybindSetting) {
                             ((KeybindSetting) setting).setKeyCode(Integer.parseInt(value));
                         }
-                    } else
-                        module.setKey(Integer.parseInt(value));
+                    } else module.setKey(Integer.parseInt(value));
                 }
             }
-
             br.close();
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -191,7 +186,8 @@ public class ConfigManager {
             }
 
             br.close();
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

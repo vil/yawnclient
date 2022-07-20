@@ -24,13 +24,13 @@ public class KeyboardMixin {
         switch (action) {
             case 0 -> {
                 KeyReleaseEvent event = new KeyReleaseEvent(key, scanCode);
-                YawnClient.EVENT_BUS.post(event);
+                YawnClient.INSTANCE.EVENT_BUS.post(event);
                 if (event.isCancelled()) ci.cancel();
             }
             case 1 -> {
                 KeyPressEvent event = new KeyPressEvent(key, scanCode);
                 YawnClient.INSTANCE.moduleManager.getModules().stream().filter(m -> m.getKey() == key).forEach(Module::toggle);
-                YawnClient.EVENT_BUS.post(event);
+                YawnClient.INSTANCE.EVENT_BUS.post(event);
                 if (event.isCancelled()) ci.cancel();
             }
         }

@@ -1,6 +1,5 @@
 package me.vp.yawnclient.clickgui.component.components.sub;
 
-import me.vp.yawnclient.YawnClient;
 import me.vp.yawnclient.clickgui.component.Component;
 import me.vp.yawnclient.clickgui.component.components.Button;
 import me.vp.yawnclient.setting.settings.ModeSetting;
@@ -54,7 +53,6 @@ public class ModeButton extends Component {
             this.setting.cycle();
 
             this.setting.setMode(this.setting.getMode());
-            YawnClient.INSTANCE.configManager.save();
         }
         super.mouseClicked(mouseX, mouseY, button);
     }

@@ -30,7 +30,7 @@ public final class YawnClient implements ModInitializer {
         INSTANCE = this;
     }
 
-    public static final EventBus EVENT_BUS = new EventBus();
+    public final EventBus EVENT_BUS = new EventBus();
     public ModuleManager moduleManager;
     public SettingManager settingManager;
     public CommandManager commandManager;
@@ -69,21 +69,29 @@ public final class YawnClient implements ModInitializer {
         settingManager = new SettingManager();
         printInfo("setting system initialized.");
 
-        commandManager = new CommandManager();
-        printInfo("command system initialized.");
-
         moduleManager = new ModuleManager();
         printInfo("module system initialized.");
 
+        commandManager = new CommandManager();
+        printInfo("command system initialized.");
 
         configManager = new ConfigManager();
         printInfo("config manager initialized.");
-        configManager.load();
+
 
         long finishTime = System.currentTimeMillis() - startTime;
-        printInfo("Yawnclient \uD83E\uDD71 initialized in " + finishTime + "ms.");
+        printInfo("Yawnclient \uD83E\uDD71 phase 1 initialized in " + finishTime + "ms.");
+    }
 
-        ClientLifecycleEvents.CLIENT_STOPPING.register((minecraftClient) -> configManager.save());
+    public void postInit() {
+        long startTime = System.currentTimeMillis();
+        printInfo("Yawnclient \uD83E\uDD71 phase 2");
+
+        configManager.load();
+        printInfo("configs loaded.");
+
+        long finishTime = System.currentTimeMillis() - startTime;
+        printInfo("Yawnclient \uD83E\uDD71 phase 2 initialized in " + finishTime + "ms.");
     }
 
     private static String getBuildDay() {

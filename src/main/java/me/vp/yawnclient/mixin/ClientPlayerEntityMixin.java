@@ -18,7 +18,7 @@ public class ClientPlayerEntityMixin {
         if (mc.player != null && mc.world != null) {
             YawnClient.INSTANCE.moduleManager.onTick();
             TickEvent event = new TickEvent();
-            YawnClient.EVENT_BUS.post(event);
+            YawnClient.INSTANCE.EVENT_BUS.post(event);
         }
     }
 }
