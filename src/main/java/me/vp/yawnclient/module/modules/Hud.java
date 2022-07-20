@@ -1,19 +1,25 @@
 package me.vp.yawnclient.module.modules;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import me.vp.yawnclient.YawnClient;
+import me.vp.yawnclient.event.events.RenderEntityEvent;
 import me.vp.yawnclient.event.events.RenderIngameHudEvent;
 import me.vp.yawnclient.module.Module;
 import me.vp.yawnclient.setting.settings.BooleanSetting;
-import me.vp.yawnclient.setting.settings.ModeSetting;
+
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.util.Formatting;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+
 import org.lwjgl.glfw.GLFW;
+
 import org.quantumclient.energy.Subscribe;
 
 import java.awt.*;
@@ -30,12 +36,16 @@ public class Hud extends Module {
     public final BooleanSetting netherCoords = new BooleanSetting("NetherCoords", this, true);
     public final BooleanSetting facing = new BooleanSetting("Facing", this, false);
     public final BooleanSetting paperDoll = new BooleanSetting("Paperdoll", this, false);
+    public final BooleanSetting targetHud = new BooleanSetting("TargetHud", this, false);
 
     private final Identifier logo1 = new Identifier("yawnclient", "yawn.png");
+    private PlayerEntity target;
+    private boolean found;
+    float temp = 10000;
 
     public Hud() {
         super("Hud", "Renders stuff on screen.", GLFW.GLFW_KEY_UNKNOWN, Category.CLIENT);
-        this.addSettings(watermark, logo, arraylist, fps, ping, speed, coords, netherCoords, facing, paperDoll);
+        this.addSettings(watermark, logo, arraylist, fps, ping, speed, coords, netherCoords, facing, paperDoll, targetHud);
     }
 
     @Subscribe
@@ -115,7 +125,7 @@ public class Hud extends Module {
                 Module mod = YawnClient.INSTANCE.moduleManager.modules.get(i);
                 if (mod.isEnabled()) {
                     DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, mod.getName(),
-                            mc.getWindow().getScaledWidth() - mc.textRenderer.getWidth(mod.getName()), 10 + (iteration * 10),
+                            mc.getWindow().getScaledWidth() - mc.textRenderer.getWidth(mod.getName()), 1 + (iteration * 10),
                             Color.MAGENTA.getRGB());
                     iteration++;
                 }
@@ -133,5 +143,66 @@ public class Hud extends Module {
                 event.getMatrix().pop();
             }
         }
+
+        // TargetHud
+        // This looks so goofy ahh :skull:, someone please rewrite this for me :3 <3 pleawse
+        if (targetHud.isEnabled()) {
+            if (target == null) return;
+
+            int x = mc.getWindow().getScaledWidth() - 280;
+            int y = mc.getWindow().getScaledHeight() - 65;
+            PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(target.getUuid());
+            int targetLatency = playerListEntry == null ? 0 : playerListEntry.getLatency();
+            String info = target.getEntityName() + " || " + targetLatency + "ms";
+            String health = String.format("%.1f", target.getHealth() + target.getAbsorptionAmount()) + " health";
+            String location = String.format("%.1f", mc.player.distanceTo(target)) + "m";
+
+            if (target != null) {
+                DrawableHelper.fill(event.getMatrix(), x, y, x + 150, y + 70, new Color(0, 0, 0, 100).getRGB());
+                DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, info, x + 10, y + 9, Color.WHITE.getRGB());
+                DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, health, x + 10, y + 20, Color.WHITE.getRGB());
+                DrawableHelper.drawStringWithShadow(event.getMatrix(), mc.textRenderer, location, x + 90, y + 20, Color.WHITE.getRGB());
+
+                int i = 1;
+                for (ItemStack item : target.getArmorItems()) {
+                    mc.getItemRenderer().renderGuiItemIcon(item, x + (9 * i) + (i * 9) - 9, y + 30);
+                    i++;
+                }
+
+                mc.getItemRenderer().renderGuiItemIcon(target.getMainHandStack(), x + 80, y + 30);
+                mc.getItemRenderer().renderGuiItemIcon(target.getOffHandStack(), x + 100, y + 30);
+                InventoryScreen.drawEntity(x + 130, y + 62, 25, -MathHelper.wrapDegrees(target.prevYaw + (target.getYaw() - target.prevYaw) * mc.getTickDelta()), -target.getPitch(), target);
+
+                DrawableHelper.fill(event.getMatrix(), x + 5, y + 50, x + getWidth(target.getAbsorptionAmount() + target.getHealth()) + 10, y + 60,
+                                    getColor(36, 100 / 36f * target.getHealth() + target.getAbsorptionAmount()).getRGB());
+            }
+        }
+    }
+
+    @Subscribe
+    public void onRender(RenderEntityEvent event) {
+        for (AbstractClientPlayerEntity player : mc.world.getPlayers()) {
+            if (mc.player.distanceTo(player) < 150 && mc.player.distanceTo(player) < temp && player != mc.player) {
+                target = player;
+                found = true;
+                temp = mc.player.distanceTo(player);
+            }
+        }
+        if (!found) target = null;
+        else found = false;
+        temp = 10000;
+    }
+
+    private Color getColor(float max, float value) {
+        double percent = 100 / (max / value);
+        if (percent <= 30) return Color.RED;
+        if (30 < percent && percent <= 70) return Color.YELLOW;
+        if (percent > 70) return Color.GREEN;
+        return null;
+    }
+
+    private int getWidth(float value) {
+        double percent = 100 / (target.getMaxHealth() / value);
+        return (int) (170 / 100 * percent);
     }
 }

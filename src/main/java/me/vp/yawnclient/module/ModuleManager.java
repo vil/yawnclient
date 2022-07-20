@@ -17,6 +17,7 @@ public class ModuleManager {
         modules = new ArrayList<>();
 
         modules.add(new Clickgui());
+        modules.add(new FakePlayer());
         modules.add(new Fullbright());
         modules.add(new Hud());
         modules.add(new Sprint());

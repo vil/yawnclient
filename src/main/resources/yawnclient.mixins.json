@@ -6,6 +6,7 @@
   "client": [
     "ClientConnectionMixin",
     "ClientPlayerEntityMixin",
+    "EntityRenderDispatcherMixin",
     "IngameHudMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
