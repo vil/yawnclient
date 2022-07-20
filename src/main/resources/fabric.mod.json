@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "yawnclient",
-  "version": "${version}",
+  "version": "0.2.1b",
 
   "name": "YawnClient",
   "description": "Yawnclient is based",
