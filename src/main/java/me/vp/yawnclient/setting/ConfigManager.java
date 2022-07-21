@@ -1,6 +1,7 @@
 package me.vp.yawnclient.setting;
 
 import me.vp.yawnclient.YawnClient;
+import me.vp.yawnclient.clickgui.component.Frame;
 import me.vp.yawnclient.module.Module;
 import me.vp.yawnclient.setting.settings.*;
 import net.minecraft.client.MinecraftClient;
@@ -23,6 +24,7 @@ public class ConfigManager {
     public void save() {
         saveModules();
         saveSettings();
+        saveClickgui();
         savePrefix();
     }
 
@@ -104,10 +106,23 @@ public class ConfigManager {
         }
     }
 
+    // TODO
+    public void saveClickgui() {
+        try {
+            File file = new File(MainDirectory, "clickgui.txt");
+            ArrayList<String> toSave = new ArrayList<>();
+
+            writeFile(toSave, file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // ---------- Load ----------
     public void load() {
         loadModules();
         loadSettings();
+        loadClickgui();
         loadPrefix();
     }
 
@@ -154,18 +169,44 @@ public class ConfigManager {
                         Setting setting = YawnClient.INSTANCE.settingManager.getSettingByName(module, settingname);
                         if (setting instanceof BooleanSetting) {
                             ((BooleanSetting) setting).setEnabled(Boolean.parseBoolean(value));
-                        } if (setting instanceof NumberSetting) {
+                        }
+                        if (setting instanceof NumberSetting) {
                             ((NumberSetting) setting).setValue(Double.parseDouble(value));
-                        } if (setting instanceof ModeSetting && ((ModeSetting) setting).modes.toString().contains(value)) {
+                        }
+                        if (setting instanceof ModeSetting && ((ModeSetting) setting).modes.toString().contains(value)) {
                             ((ModeSetting) setting).setMode(value);
-                        } if (setting instanceof ColorSetting) {
+                        }
+                        if (setting instanceof ColorSetting) {
                             ((ColorSetting) setting).setRainbow(Boolean.parseBoolean(curLine.split(":")[3]));
                             ((ColorSetting) setting).fromInteger(Integer.parseInt(value));
-                        } if (setting instanceof KeybindSetting) {
+                        }
+                        if (setting instanceof KeybindSetting) {
                             ((KeybindSetting) setting).setKeyCode(Integer.parseInt(value));
                         }
                     } else module.setKey(Integer.parseInt(value));
                 }
+            }
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // TODO
+    public void loadClickgui() {
+        try {
+            File file = new File(MainDirectory, "clickgui.txt");
+            FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                String curLine = line.trim();
+                String name = curLine.split(":")[0];
+                String x = curLine.split(":")[1];
+                String y = curLine.split(":")[2];
+
             }
             br.close();
         } catch (Exception e) {

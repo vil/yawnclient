@@ -71,9 +71,9 @@ public class Frame {
 	public void renderFrame(MatrixStack matrixStack, TextRenderer textRenderer) {
 		DrawableHelper.fill(matrixStack, this.x, this.y , this.x + this.width, this.y + this.barHeight, new Color(0, 0, 0, 191).getRGB());
 		DrawableHelper.drawCenteredText(matrixStack, textRenderer, this.category.name(), (this.x + 40) + 3, (int) ((this.y + 0.0f) * 1 + 4), new Color(255, 255, 255, 255).getRGB());
-		if(this.open) {
-			if(!this.components.isEmpty()) {
-				for(Component component : components) {
+		if (this.open) {
+			if (!this.components.isEmpty()) {
+				for (Component component : components) {
 					component.renderComponent(matrixStack, textRenderer);
 				}
 			}
@@ -82,7 +82,7 @@ public class Frame {
 
 	public void refresh() {
 		int off = this.barHeight;
-		for(Component comp : components) {
+		for (Component comp : components) {
 			comp.setOff(off);
 			off += comp.getHeight();
 		}
@@ -101,7 +101,7 @@ public class Frame {
 	}
 
 	public void updatePosition(int mouseX, int mouseY) {
-		if(this.isDragging) {
+		if (this.isDragging) {
 			this.setX(mouseX - dragX);
 			this.setY(mouseY - dragY);
 		}

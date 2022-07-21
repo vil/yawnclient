@@ -19,17 +19,15 @@ import java.util.ArrayList;
 public class Clickgui extends Screen {
     MinecraftClient mc = MinecraftClient.getInstance();
     public static ArrayList<Frame> frames;
-    public static int color = -1;
 
     public Clickgui() {
         super(Text.literal("Fuck you mojang"));
         frames = new ArrayList<>();
         int frameX = 5;
-        int frameY = 0;
+
         for (Category category : Category.values()) {
             Frame frame = new Frame(category);
             frame.setX(frameX);
-            frame.setY(frameY);
             frames.add(frame);
             frameX += frame.getWidth() + 1;
         }
@@ -41,12 +39,14 @@ public class Clickgui extends Screen {
 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        for (Frame frame : frames) {
+        frames.forEach(frame -> {
             frame.renderFrame(matrixStack, textRenderer);
+            frame.updatePosition(mouseX, mouseY);
             for (Component comp : frame.getComponents()) {
                 comp.updateComponent(mouseX, mouseY);
             }
-        }
+        });
+        
         matrixStack.push();
         matrixStack.translate(mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight(), 0);
         //matrixStack.scale(0.8f, 0.8f, 0.8f);
@@ -63,8 +63,8 @@ public class Clickgui extends Screen {
         for (Frame frame : frames) {
             if (frame.isWithinHeader((int) mouseX, (int) mouseY) && button == 0) {
                 frame.setDrag(true);
-                frame.dragX = (int) (mouseX - frame.getX());
-                frame.dragY = (int) (mouseY - frame.getY());
+                frame.dragX = ((int) mouseX - frame.getX());
+                frame.dragY = ((int) mouseY - frame.getY());
             }
             if (frame.isWithinHeader((int) mouseX, (int) mouseY) && button == 1) {
                 frame.setOpen(!frame.isOpen());
