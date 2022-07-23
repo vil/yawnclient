@@ -11,6 +11,3 @@ I am lazy so I used bedroom as the base :))))
 ty [@srgantmoomoo](https://github.com/srgantmoomoo)
 
 also ty [@QuantumClient](https://github.com/QuantumClient/Energy) for the eventbus
-
-
-I made a useless discord server for this too. Join if u want. [click here](https://discord.gg/ZfdkdWTJ3v)
