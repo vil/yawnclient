@@ -1,5 +1,7 @@
 # yawnclient
 <img style='width:150px; height:150px;' src="https://github.com/HerraVp/yawnclient/blob/main/src/main/resources/assets/yawnclient/yawn.png?raw=true"/>
+Utility mod for Minecraft 1.19
+
 by Vp :)
 
 dont use this, its far from ready yet.
